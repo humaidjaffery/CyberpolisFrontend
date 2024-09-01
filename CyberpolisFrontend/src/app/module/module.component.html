@@ -1,0 +1,212 @@
+<div class="z-0 relative min-h-screen w-screen overflow-y-scroll no-scrollbar">
+  <!-- Background Image with Tinted Overlay -->
+  <div
+    class="absolute inset-0 bg-cover bg-center bg-fixed"
+    style="
+      background-image: url('cyber_jungle.jpg');
+      background-attachment: fixed;
+    "
+  >
+    <div class="absolute inset-0 bg-black opacity-70"></div>
+  </div>
+
+  <!-- Content Wrapper -->
+  <div class="relative flex h-screen">
+    <!-- Content Section -->
+    <div
+      #contentSection
+      class="p-4 overflow-y-auto no-scrollbar overflow-x-hidden"
+      [style.width.%]="contentWidth"
+    >
+      <div
+        class="w-full h-full p-4 whitespace-normal break-words flex flex-col"
+      >
+        <h1 class="text-white text-6xl font-bold whitespace-normal break-words">
+          Linear Regression
+        </h1>
+        <h1 class="mt-3 text-white whitespace-normal break-words">
+          This is some example content for an example module
+        </h1>
+      </div>
+
+      <button
+        id="chatbotToggle"
+        class="fixed bottom-4 right-4 p-2 z-10 shadow-lg flex flex-row bg-gradient-to-r from-teal-500 to-purple-500 text-white rounded-md hover:bg-gradient-to-r hover:from-teal-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-teal-400 neon-glow"
+        (click)="this.chatbotHelpHidden = false"
+      >
+        <h1 class="text-black mx-2">Chatbot Help</h1>
+        <img src="angle-up-solid.svg" class="w-6 h-6" />
+      </button>
+
+      <div
+        #chatbotPopup
+        class="fixed z-20 bottom-0 left-0 w-full bg-gray-800 text-white shadow-lg transition-all duration-300 ease-in-out"
+        [style.height.px]="chatbotHeight"
+        [style.display]="chatbotHelpHidden ? 'none' : 'block'"
+      >
+        <div class="flex flex-col h-full">
+          <div
+            class="flex justify-between items-center p-4 border-b border-gray-700 cursor-ns-resize"
+            (mousedown)="onResizeStart($event)"
+          >
+            <h2 class="text-xl font-bold">Chatbot Help</h2>
+            <button
+              id="chatbotToggle"
+              class="bg-blue-500 text-white p-2 rounded-md shadow-lg flex flex-row z-0"
+              (click)="this.chatbotHelpHidden = true"
+            >
+              <img src="angle-down-solid.svg" class="w-6 h-6" />
+            </button>
+          </div>
+          <div class="flex-grow p-4 overflow-y-auto no-scrollbar">
+            @for (msg of messages; track msg; let i = $index) {
+            <div class="m-3 p-2 outline whitespace-normal break-words">
+              {{ msg }}
+            </div>
+            }
+          </div>
+          <div
+            class="p-4 border-t border-gray-700 overflow-y-auto no-scrollbar whitespace-normal break-words"
+          >
+            <input
+              #chatInput
+              type="text"
+              class="w-full bg-transparent text-white focus:outline-none"
+              placeholder="Type your message..."
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Divider with Neon Gradient Effect -->
+    <div
+      class="w-1 bg-gradient-to-b from-teal-500 to-purple-500 neon-glow cursor-col-resize"
+      (mousedown)="onDividerResizeStart($event)"
+    ></div>
+
+    <!-- Work Section -->
+    <div
+      #workSection
+      class="p-4 bg-fblack flex flex-col no-scrollbar"
+      [style.width.%]="100 - contentWidth"
+    >
+      <!--Header of work section-->
+      <div class="basis-1/12 w-full flex justify-between">
+        <!--Block Or Code Option-->
+        <div class="basis-3/12 flex items-center h-full justify-between">
+          <!--Block Option-->
+          <div
+            id="blockDiv"
+            class="flex-1 text-center py-2 cursor-pointer font-thin justify-between"
+            (click)="selectTab('block')"
+          >
+            <h1 class="text-xl" [class.font-bold]="selected === 'block'">
+              Block
+            </h1>
+          </div>
+
+          <div class="w-px h-1/2 bg-gray-300 mx-3"></div>
+
+          <!-- Code Option -->
+          <div
+            id="codeDiv"
+            class="flex-1 text-center py-2 cursor-pointer font-thin"
+            (click)="selectTab('code')"
+          >
+            <h1 class="text-xl" [class.font-bold]="selected === 'code'">
+              Code
+            </h1>
+          </div>
+        </div>
+
+        <!--Submit-->
+        <div class="flex items-center justify-center h-full">
+          <button
+            class="flex items-center px-4 py-2 bg-gradient-to-r from-teal-500 to-purple-500 text-white rounded-md hover:bg-gradient-to-r hover:from-teal-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-teal-400 neon-glow"
+          >
+            <img
+              src="paper-plane-regular.svg"
+              class="w-6 h-6 max-w-[1em] max-h-[1em] mr-2"
+            />
+            <h1 class="font-bold">Run</h1>
+          </button>
+        </div>
+      </div>
+
+      <!--WORK AREA-->
+      <div
+        class="basis-11/12 p-3 w-full flex flex-col overflow-y-auto no-scrollbar overflow-x-hidden z-0"
+      >
+        <!-- CODE-->
+        <div class="w-full h-full rounded-md" [hidden]="selected === 'block'">
+          <ace-editor
+            [(text)]="code"
+            [mode]="'python'"
+            [theme]="'monokai'"
+            [options]="editorOptions"
+            [readOnly]="false"
+            [autoUpdateContent]="true"
+            (textChanged)="onCodeChanged($event)"
+            style="min-height: 100%; width: 100%"
+          >
+          </ace-editor>
+        </div>
+
+        <!-- BLOCK-->
+        <div
+          class="outline w-full h-full rounded-md p-2"
+          [hidden]="selected === 'code'"
+        >
+          <!-- Active Blocks Area -->
+          <div>
+            <h1>ACTIVE</h1>
+            <div
+              cdkDropList
+              #activeList="cdkDropList"
+              [cdkDropListData]="activeBlocks"
+              [cdkDropListConnectedTo]="[blockBankList]"
+              class="example-list"
+              (cdkDropListDropped)="drop($event, 'active')"
+            >
+              @for (block of activeBlocks; track block; let i = $index) {
+              <div
+                id="{{ i }}"
+                class="outline rounded-md w-fit px-4 py-2 mx-2 my-4"
+                cdkDrag
+                [cdkDragData]="block"
+              >
+                {{ block.text }}
+              </div>
+              }
+            </div>
+          </div>
+
+          <!-- Block Bank -->
+          <div>
+            <h2>Block Bank</h2>
+            <div
+              cdkDropList
+              #blockBankList="cdkDropList"
+              [cdkDropListData]="blockBank"
+              [cdkDropListConnectedTo]="[activeList]"
+              class="example-list"
+              (cdkDropListDropped)="drop($event, 'bank')"
+            >
+              @for (block of blockBank; track block; let i = $index) {
+              <div
+                id="{{ i }}"
+                class="outline rounded-md w-fit px-4 py-2 mx-2 my-4"
+                cdkDrag
+                [cdkDragData]="block"
+              >
+                {{ block.text }}
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

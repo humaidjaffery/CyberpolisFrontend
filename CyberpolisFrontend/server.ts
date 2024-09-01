@@ -54,4 +54,8 @@ function run(): void {
   });
 }
 
+import 'localstorage-polyfill'
+
+global['localStorage'] = localStorage;
+
 run();

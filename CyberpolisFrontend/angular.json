@@ -39,12 +39,12 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [],
+            "scripts": [
+              
+            ],
             "server": "src/main.server.ts",
-            "prerender": true,
-            "ssr": {
-              "entry": "server.ts"
-            }
+            "prerender": false,
+            "ssr": false
           },
           "configurations": {
             "production": {
@@ -100,12 +100,20 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/ace-builds/src-min-noconflict/theme-monokai.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/ace-builds/src-min-noconflict/ace.js",
+              "node_modules/ace-builds/src-min-noconflict/mode-python.js",
+              "node_modules/ace-builds/src-min-noconflict/theme-monokai.js"
+            ]
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "9967b128-4d5e-44ea-89e2-f8e940459610"
   }
 }

@@ -1,0 +1,84 @@
+<div class="w-screen h-full bg-img">
+  <div class="w-full h-full flex justify-center overlay">
+    <div class="w-1/2 h-full">
+      <div class="flex items-center justify-center h-full">
+        <form
+          #form="ngForm"
+          (ngSubmit)="onSubmit(form.value)"
+          class="bg-teal-600 mx-auto outline rounded-md p-8 m-4 text-center text-black"
+        >
+          <div class="flex flex-col justify-center space-y-5">
+            <div>
+              <h1 class="text-4xl font-bold">Login</h1>
+            </div>
+
+            <div>
+              <div
+                *ngIf="showLogInToAccessMessage"
+                class="outline bg-red-500 h-12 w-3/4 m-auto text-center py-2 rounded-md"
+              >
+                <h1>Please Log in To access that Page</h1>
+              </div>
+
+              <div
+                *ngIf="showErrorMessage"
+                class="outline bg-red-500 h-12 w-3/4 m-auto text-center py-2 rounded-md"
+              >
+                {{ errorMessage }}
+              </div>
+            </div>
+
+            <div class="flex-row space-y-1 justify-center items-center mx-auto">
+              <div class="card flex justify-content-center w-full p-6">
+                <span class="p-float-label drop-shadow-2xl">
+                  <input
+                    class="p-4 w-96 text-xl"
+                    pInputText
+                    id="email"
+                    name="email"
+                    ngModel
+                  />
+                  <label htmlFor="email"><b>Email</b></label>
+                </span>
+              </div>
+
+              <div class="card flex justify-content-center w-full p-6">
+                <span class="p-float-label drop-shadow-2xl">
+                  <input
+                    class="p-4 w-96 text-xl"
+                    pInputText
+                    type="password"
+                    id="password"
+                    name="password"
+                    ngModel
+                  />
+                  <label htmlFor="email"><b>Password</b></label>
+                </span>
+              </div>
+            </div>
+
+            <div class="m-3 w-full">
+              <div class="py-3">
+                <button
+                  type="submit"
+                  class="font-bold py-3 px-5 rounded outline"
+                >
+                  Login
+                </button>
+              </div>
+
+              <div>
+                <button
+                  type="button"
+                  (click)="this.router.navigate(['auth/signup'])"
+                >
+                  Sign up instead
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
