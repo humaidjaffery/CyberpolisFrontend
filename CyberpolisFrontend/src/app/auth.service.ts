@@ -29,18 +29,10 @@ export class AuthService {
           }
           return response;
         }),
-        catchError(this.handleError)
+        
       );
   }
 
-  private handleError(error: HttpErrorResponse): Observable<string> {
-    if (error.status === 403) {
-      // Handle 403 Forbidden
-      throw Error('Invalid login credentials');
-    } else {
-      throw Error('Something went wrong. Please try again later.');
-    }
-  }
 
   public signup(email: string, displayName: string, password: string): Observable<any> {
     return this.http.post(`${environment.apiServerUrl}/auth/signup`, {displayName, email, password}, httpOptions).pipe(

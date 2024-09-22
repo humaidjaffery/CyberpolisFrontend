@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-  errorMessage = "";
+  errors = ""
 
   constructor(private authService: AuthService, public router: Router) { }
 
@@ -20,18 +20,32 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit(data: any){
-    this.authService.signup(data.email, data.username, data.password).subscribe(
-      (response: any) => {
-        console.log(response);
-        this.router.navigate(['home']);
-      },
-      (error: any) => {
-        //to do: implement error
-        console.log(error);
-        this.errorMessage = error.error;
+    if(data.email == ''){
+      this.errors = "Email field can not be blank"
+      return
+    }
 
+    if(data.password == ''){
+      this.errors = "Password field can not be blank"
+      return
+    }
+
+    this.authService.signup(data.email, data.username, data.password).subscribe(
+      {
+        next: this.handleSuccessfulSignup.bind(this),
+        error: this.handleSignupError.bind(this)
       }
     )
+  }
+
+  handleSuccessfulSignup(data: any){
+    console.log(data)
+    this.router.navigate(['home'])
+  }
+
+  handleSignupError(error:any){
+    this.errors = error.message
+    console.log(error)
   }
 
 }

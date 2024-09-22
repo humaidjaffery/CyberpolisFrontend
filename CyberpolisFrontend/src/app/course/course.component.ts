@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ModuleService } from '../module.service';
 
 
 @Component({
@@ -8,20 +9,40 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './course.component.css'
 })
 export class CourseComponent implements OnInit {
-  items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
+  courseName: string = "" 
+  courseId: string = ""
+  modules: any[] = [] 
 
-  
-  
-  constructor (private route: ActivatedRoute) {}
+  constructor (private route: ActivatedRoute, private moduleService: ModuleService, private router: Router) {}
   
   ngOnInit(): void {
     this.route.params.subscribe({
-      next: this.getCourseInfo.bind(this)
+      next: this.getCourseId.bind(this)
     })
+
+    this.moduleService.getAllFromCourse(this.courseId).subscribe(
+      {
+        next: this.handleCourseInfo.bind(this),
+        error: this.handleError.bind(this)
+      }
+    )
   }
 
-  getCourseInfo(routeInfo: any){
-    console.log(routeInfo['course_id'])
+  getCourseId(routeInfo: any){
+    this.courseId = routeInfo['course_id']
+    this.courseName = routeInfo['course_name']
+  }
+
+  handleError(error: any){
+    console.log(error)
+  }
+
+  handleCourseInfo(data: any){
+    this.modules = data
+  }
+
+  goToModule(moduleId: String){
+    this.router.navigate(['module', moduleId])
   }
 
 

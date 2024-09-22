@@ -21,12 +21,25 @@
       <div
         class="w-full h-full p-4 whitespace-normal break-words flex flex-col"
       >
-        <h1 class="text-white text-6xl font-bold whitespace-normal break-words">
+      <div class="flex w-full flex-col">
+        <div class="w-full flex" (click)="goToCourse()">
+          <small class="text-xs p-1 font-bold" >{{moduleInfo.course.courseName}}</small>
+          <small class="text-xs py-1">></small>
+          <small class="text-xs p-1">{{moduleInfo.moduleName}}</small>
+        </div>
+        <div class="py-3">
+          <h1 class="text-5xl">{{moduleInfo.moduleName}}</h1>
+        </div>
+      </div>
+        <!-- <h1 class="text-white text-6xl font-bold whitespace-normal break-words">
           Linear Regression
         </h1>
         <h1 class="mt-3 text-white whitespace-normal break-words">
           This is some example content for an example module
-        </h1>
+        </h1> -->
+
+        {{this.moduleInfo.moduleContentMarkdown}}
+
       </div>
 
       <button

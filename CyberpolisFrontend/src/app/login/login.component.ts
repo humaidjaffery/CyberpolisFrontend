@@ -8,9 +8,7 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  showLogInToAccessMessage: boolean = false;
-  showErrorMessage: boolean = false;
-  errorMessage = '';
+  errors: String[] = [];
 
   constructor(private route: ActivatedRoute, private authService: AuthService, public router: Router) { }
 
@@ -22,19 +20,17 @@ export class LoginComponent implements OnInit {
 
     this.route.queryParams.subscribe((params) => {
       if(params['showLogInToAccessMessage'] == 'true'){
-        this.showLogInToAccessMessage = true;
+        this.errors.push("Please Log in to access that page");
       }
     });
   }
 
-
-
   onSubmit(data: any){
-    this.showLogInToAccessMessage = false;
+    this.errors = [];
     this.authService.login(data.email, data.password).subscribe(
       {
         next: this.handleSuccessfulLogin.bind(this),
-        error:  this.handleLoginError.bind(this)
+        error: this.handleLoginError.bind(this)
       }
     )
   }
@@ -45,7 +41,7 @@ export class LoginComponent implements OnInit {
   }
 
   handleLoginError(error: any){
-    console.log("E" + error)
+    this.errors.push("Invalid Credentials")
   }
 
 }

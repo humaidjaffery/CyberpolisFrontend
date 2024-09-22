@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, ElementRef, HostListener, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { moveItemInArray } from '@angular/cdk/drag-drop';
 
 import 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-noconflict/mode-python';
 import 'ace-builds/src-noconflict/theme-monokai';
+import { ModuleService } from '../module.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-module',
@@ -17,8 +18,10 @@ export class ModuleComponent implements OnInit, AfterViewInit {
   messages: string[] = []
   @ViewChild('chatInput') chatInput!: ElementRef;
 
-
-  code: string = 'print("Hello, World!")'; // Initial code to display in the editor
+  code: string = 'print("hello world")'; // Initial code to display in the editor
+  moduleId: String = ''
+  moduleInfo: any = {}
+  content = ""
 
   editorOptions = {
     fontSize: '16px',
@@ -26,6 +29,38 @@ export class ModuleComponent implements OnInit, AfterViewInit {
     tabSize: 4,
   };
 
+  constructor(private moduleService: ModuleService, public router: Router, private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.route.params.subscribe({
+      next: this.getModuleId.bind(this)
+    })
+
+    this.moduleService.getModule(this.moduleId).subscribe({
+      next: this.handleModuleInfo.bind(this),
+      error: this.handleError.bind(this)
+    })
+
+    
+  }
+
+  getModuleId(routeInfo: any){
+    this.moduleId = routeInfo['module_id'];
+  }
+
+  handleModuleInfo(data: any){
+    this.moduleInfo = data;
+    this.code = this.moduleInfo.initialModuleCode;
+  }
+
+  handleError(error: any){
+    console.log(error)
+  }
+
+  goToCourse(){
+    this.router.navigate(['course', this.moduleInfo.course.courseId, this.moduleInfo.course.courseName])
+  }
+  
   onCodeChanged(event: any) {
     console.log('Code changed:', event);
   }
@@ -61,13 +96,10 @@ export class ModuleComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngOnInit() {
 
-  }
 
   // Handle the drop event
   drop(event:any, targetList: string) {
-    
     if(!event.isPointerOverContainer){
       if(targetList === 'active'){
         this.blockBank.push(this.activeBlocks.splice(parseInt(event.item.element.nativeElement.id), 1)[0])
@@ -158,6 +190,10 @@ export class ModuleComponent implements OnInit, AfterViewInit {
     document.removeEventListener('mousemove', this.onDividerResize);
     document.removeEventListener('mouseup', this.onDividerResizeEnd);
   }
-  
+
+
+  convertMarkdown(){
+    
+  } 
 
 }

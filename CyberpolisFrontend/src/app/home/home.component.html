@@ -1,1 +1,16 @@
-<p>home works!</p>
+<h1 class="text-6xl">Home</h1>
+
+<div class="m-10">
+  <h1 class="text-xl">Courses</h1>
+  @for (c of courses; track c){
+  <div class="outline outline-teal-300 rounded-md w-full h-52 my-10">
+    <h1 class="text-3xl text-teal-200 font-semibold p-5">{{ c.courseName }}</h1>
+    <button
+      class="outline-none outline-purple-200 rounded-md p-3 m-5 text-2xl text-purple-200"
+      (click)="goToCourse(c.courseId, c.courseName)"
+    >
+      Go To Course
+    </button>
+  </div>
+  }
+</div>

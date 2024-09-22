@@ -13,12 +13,10 @@ const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'signup', component: SignupComponent},
   ]},
-  {path: '', component: HeroComponent},
-  {path: 'home', component: HomeComponent},
-  {path: ':course_id', component: CourseComponent},
-  {path: ':course_id/:module_id', component: ModuleComponent},
-  
-
+  {path: '', component: HeroComponent,  },
+  {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+  {path: 'course/:course_id/:course_name', component: CourseComponent, canActivate: [AuthGuard]},
+  {path: 'module/:module_id', component: ModuleComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({
