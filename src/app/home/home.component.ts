@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CourseService } from '../course.service';
 import { Router } from '@angular/router';
 import { error } from 'console';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +12,7 @@ import { error } from 'console';
 export class HomeComponent implements OnInit {
   courses: any[] = [];
 
-  constructor(private courseService: CourseService, public router: Router) { }
+  constructor(private courseService: CourseService, public router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
       this.courseService.getAllCourses().subscribe(
@@ -34,6 +35,11 @@ export class HomeComponent implements OnInit {
   goToCourse(courseId: any, courseName: String){
     console.log(courseId)
     this.router.navigate(['/course', courseId, courseName])
+  }
+
+
+  logout(){
+    this.authService.logout()
   }
 
 

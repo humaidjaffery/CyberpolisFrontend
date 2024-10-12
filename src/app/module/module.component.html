@@ -23,23 +23,59 @@
       >
       <div class="flex w-full flex-col">
         <div class="w-full flex" (click)="goToCourse()">
-          <small class="text-xs p-1 font-bold" >{{moduleInfo.course.courseName}}</small>
-          <small class="text-xs py-1">></small>
-          <small class="text-xs p-1">{{moduleInfo.moduleName}}</small>
+          <small class="text-xs p-1" >{{moduleInfo?.course?.courseName}} > {{moduleInfo?.moduleName}}</small>
         </div>
         <div class="py-3">
-          <h1 class="text-5xl">{{moduleInfo.moduleName}}</h1>
+          <h1 class="text-5xl">{{moduleInfo?.moduleName}}</h1>
         </div>
-      </div>
-        <!-- <h1 class="text-white text-6xl font-bold whitespace-normal break-words">
-          Linear Regression
-        </h1>
-        <h1 class="mt-3 text-white whitespace-normal break-words">
-          This is some example content for an example module
-        </h1> -->
+      </div >
+        <div class="flex w-full flex-col" (mouseup)="onTextSelect($event)">
+          {{this.moduleInfo?.moduleContent}}
 
-        {{this.moduleInfo.moduleContentMarkdown}}
+          <button *ngIf="highlight"
+            [ngStyle]="{'top.px': highlightButtonTop, 'left.px': highlightButtonLeft}" 
+            class="absolute z-50 inline-block w-4 h-4 p-4 bg-slate-600 outline-blue-800 text-white rounded shadow-md"
+            (click)="saveHighlight()"
+            > 
+              
+          </button>
 
+          <div class="w-full flex flex-col">
+            @for (question of questions; track question; let i = $index) {
+              <div class="w-full p-5 my-5 mx-2 outline-accent2 outline-double rounded-md" 
+              [ngClass]="{
+                'outline-accent transition-all duration-500 pointer-events-none': userModuleInfo?.questionsCorrect[i]
+              }">
+                <h1 class="text-center">{{question['question']}}</h1>
+                <div class="flex flex-col gap-4">
+                @for (choice of question['choices']; track choice; let j = $index) {
+                  <div (click)="selectChoice(i, choice)" 
+                  [ngClass]="{
+                    'bg-accent2 font-bold scale-102 text-black': question['selectedChoice'] === choice && !userModuleInfo.questionsCorrect[i],
+                    'bg-accent text-black font-bold scale-102  outline-black': userModuleInfo?.questionsCorrect[i] && question['answer'] === choice,
+                    'bg-accent3 font-bold scale-102 text-black': !userModuleInfo?.questionsCorrect[i] && question.incorrectChoices?.includes(choice)
+                  }"
+                  class="w-full p-3 rounded-md h-12 flex items-center justify-center transition-all duration-500 ease-in-out outline hover:font-bold hover:scale-105 cursor-pointer"
+                  >
+                    <h1 [ngClass]="{'text-black' : userModuleInfo?.questionsCorrect[i] && question['answer'] === choice}">{{choice}}</h1>
+                  </div>
+                }
+                <button (click)="checkAnswer(i)" 
+                  [hidden]="this.userModuleInfo.questionsCorrect[i]"
+                  class="mt-3 p-2 rounded-md text-white font-semibold hover:bg-accent2 transition-all duration-300"
+                  [ngClass]="{
+                    'hover:bg-accent hover:text-black': question['correct'],
+                  }"
+                  >
+                  Check
+                </button>
+                </div>
+              </div>
+            }
+          </div>
+          <!-- <app-linear-regression-cost> </app-linear-regression-cost>   -->
+
+        </div>
       </div>
 
       <button
@@ -79,13 +115,21 @@
             }
           </div>
           <div
-            class="p-4 border-t border-gray-700 overflow-y-auto no-scrollbar whitespace-normal break-words"
+            class="p-4 border-t border-gray-700 overflow-y-auto no-scrollbar whitespace-normal break-words flex flex-col"
           >
+          <div class="w-full bg-slate-700  outline-slate-800 p-1 m-1">
+            @for (h of highlights; track $index) {
+              <p class="text-sm my-2">{{$index}}: {{h.slice(0, 200)}}...</p>
+            }
+          </div>
             <input
               #chatInput
               type="text"
+              [(value)]="message"
+              [(ngModel)]="message" 
+              (ngModelChange)="onMessageChanged()"
               class="w-full bg-transparent text-white focus:outline-none"
-              placeholder="Type your message..."
+              placeholder="Type @ to highlight a line of your code..."
             />
           </div>
         </div>
@@ -94,7 +138,7 @@
 
     <!-- Divider with Neon Gradient Effect -->
     <div
-      class="w-1 bg-gradient-to-b from-teal-500 to-purple-500 neon-glow cursor-col-resize"
+      class="w-1 bg-gradient-to-b from-teal-300 to-purple-400 neon-glow cursor-col-resize"
       (mousedown)="onDividerResizeStart($event)"
     ></div>
 
@@ -137,12 +181,13 @@
         <div class="flex items-center justify-center h-full">
           <button
             class="flex items-center px-4 py-2 bg-gradient-to-r from-teal-500 to-purple-500 text-white rounded-md hover:bg-gradient-to-r hover:from-teal-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-teal-400 neon-glow"
-          >
+            (click)="runCode()"
+            >
             <img
               src="paper-plane-regular.svg"
               class="w-6 h-6 max-w-[1em] max-h-[1em] mr-2"
             />
-            <h1 class="font-bold">Run</h1>
+            <h1 class="font-bold" >Run</h1>
           </button>
         </div>
       </div>
@@ -154,6 +199,7 @@
         <!-- CODE-->
         <div class="w-full h-full rounded-md" [hidden]="selected === 'block'">
           <ace-editor
+            (mouseup)="onTextSelect($event)"
             [(text)]="code"
             [mode]="'python'"
             [theme]="'monokai'"
@@ -168,18 +214,17 @@
 
         <!-- BLOCK-->
         <div
-          class="outline w-full h-full rounded-md p-2"
+          class="w-full h-full rounded-md p-2"
           [hidden]="selected === 'code'"
         >
           <!-- Active Blocks Area -->
           <div>
-            <h1>ACTIVE</h1>
             <div
               cdkDropList
               #activeList="cdkDropList"
               [cdkDropListData]="activeBlocks"
               [cdkDropListConnectedTo]="[blockBankList]"
-              class="example-list"
+              class="outline-dashed min-h-48 rounded-md flex flex-col p-3"
               (cdkDropListDropped)="drop($event, 'active')"
             >
               @for (block of activeBlocks; track block; let i = $index) {
@@ -196,14 +241,14 @@
           </div>
 
           <!-- Block Bank -->
-          <div>
-            <h2>Block Bank</h2>
+          <div class="mt-10">
+            <h3 class="font-thin text-center mt-3">Block Bank</h3>
             <div
               cdkDropList
               #blockBankList="cdkDropList"
               [cdkDropListData]="blockBank"
               [cdkDropListConnectedTo]="[activeList]"
-              class="example-list"
+              class="block-list"
               (cdkDropListDropped)="drop($event, 'bank')"
             >
               @for (block of blockBank; track block; let i = $index) {

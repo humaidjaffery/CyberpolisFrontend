@@ -9,8 +9,8 @@
     scrollbar-width: none;  /* Firefox */
   }
 
-  .example-list {
-    min-height: 50px;
+  .block-list {
+    min-height: 35vh;
     border: 1px dashed #ccc;
     display: flex;
     flex-direction: column;

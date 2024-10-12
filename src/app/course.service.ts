@@ -7,7 +7,6 @@ import { error } from 'console';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json' }),
-  responseType: 'text' as 'json' 
 };
 
 @Injectable({

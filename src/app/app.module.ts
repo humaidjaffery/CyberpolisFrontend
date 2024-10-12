@@ -14,6 +14,7 @@ import { ModuleComponent } from './module/module.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AceEditorModule } from 'ngx-ace-editor-wrapper';
 import { JwtInterceptor } from './jwt.interceptor';
+import { LinearRegressionCostComponent } from './interactive/linear-regression-cost/linear-regression-cost.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { JwtInterceptor } from './jwt.interceptor';
     SignupComponent,
     HomeComponent,
     CourseComponent,
-    ModuleComponent
+    ModuleComponent,
+    LinearRegressionCostComponent
   ],
   imports: [
     BrowserModule,
