@@ -22,6 +22,13 @@ export class UserModuleService {
     )
   }
 
+  public saveCode(code: String[], module_id: String): Observable<any> {
+    return this.http.put(`${environment.apiServerUrl}/userModule/saveCode/${module_id}`, code, httpOptions).pipe(
+      map((response: any) => {
+          return response;
+      })
+    )
+  }
 
   public getUserModuleRelation(module_id: String): Observable<any> {
     return this.http.get(`${environment.apiServerUrl}/userModule/get/${module_id}`, httpOptions).pipe(
@@ -38,7 +45,6 @@ export class UserModuleService {
       })
     )
   }
-
 
   public updateCorrectQuestion(module_id: String, questionsCorrect: Boolean[]): Observable<any> {
     return this.http.put(`${environment.apiServerUrl}/userModule/update/correctQuestion/${module_id}`, questionsCorrect, httpOptions).pipe(

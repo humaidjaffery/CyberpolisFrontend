@@ -61,7 +61,7 @@ export class AuthService {
   }
 
   public getUserInfo():Observable<any> {
-    return this.http.get(`${environment.apiServerUrl}/user/getInfo`);
+    return this.http.get(`${environment.apiServerUrl}/auth/getInfo`);
   }
 
 }

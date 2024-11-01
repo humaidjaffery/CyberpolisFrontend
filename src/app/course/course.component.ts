@@ -39,6 +39,10 @@ export class CourseComponent implements OnInit {
 
   handleCourseInfo(data: any){
     this.modules = data
+    
+    let temp = this.modules[0]
+    this.modules[0] = this.modules[2]
+    this.modules
   }
 
   goToModule(moduleId: String){

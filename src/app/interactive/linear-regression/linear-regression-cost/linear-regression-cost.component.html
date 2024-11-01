@@ -1,0 +1,28 @@
+<div id="graph" class="lg:pl-8 md-pl-3 sm:pl-0 outline outline-1 rounded-md mb-5" > </div>
+
+<div class="w-full flex flex-col justify-center content-center gap-y-2 ">
+  <div class="m-3 flex justify-center flex-row gap-x-2">
+    <label>Slope (M) </label>
+    <input class="w-7/12" type="range"  [(ngModel)]="m" min="0" max="5" step="0.1"  (input)="updateGraph()" />
+    <h1 class="text-xl font-bold"> {{m}} </h1>
+  </div>
+  <div class="m-3 flex justify-center flex-row gap-x-2">
+    <label>Y-Intercept (B): </label>
+    <input class="w-7/12" type="range" min="-10" max="10" [(ngModel)]="b" (input)="updateGraph()" />
+    <h1 class="text-xl font-bold"> {{b}} </h1>
+  </div>
+</div>
+
+<div class="w-full pl-10 my-3">
+  <h1 class="text-3xl text-center">Mean Squared Error: <span class="font-bold text-accent3">{{cost}}</span> </h1>  
+
+  <!-- @for (d of data; track $index) {
+    <div class="my-4">
+      <h1 class="text-md">Predicted: {{this.m}} * {{d[0]}} + {{this.b}} = {{this.m * d[0] + this.b}}  </h1>
+      <h1 class="text-md">Actual: {{d[1]}} </h1>
+      <h1 class="text-md">Cost: Sqr({{(this.m * d[0] + this.b) - d[0]}}) =  {{((this.m * d[0] + this.b) - d[0]) *  ((this.m * d[0] + this.b) - d[0])}} </h1>
+    </div>
+  } -->
+
+  <h1 class="text-xl text-center">Total Cost: {{cost * 2 * this.data.length}}</h1>
+</div>

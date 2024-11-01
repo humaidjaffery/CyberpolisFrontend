@@ -7,6 +7,7 @@ import { AuthGuard } from './authGuard';
 import { HomeComponent } from './home/home.component';
 import { CourseComponent } from './course/course.component';
 import { ModuleComponent } from './module/module.component';
+import { StoryComponent } from './story/story.component';
 
 const routes: Routes = [
   {path: 'auth', children: [
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
   {path: 'course/:course_id/:course_name', component: CourseComponent, canActivate: [AuthGuard]},
   {path: 'module/:module_id', component: ModuleComponent, canActivate: [AuthGuard]},
+  {path: 'story', component: StoryComponent}
 ];
 
 @NgModule({

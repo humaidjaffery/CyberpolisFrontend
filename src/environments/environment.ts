@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiServerUrl: 'http://localhost:8080'
+  apiServerUrl: 'http://cyberpolisbackend-env-1.eba-f9i2d3eh.us-east-1.elasticbeanstalk.com'
 };
 
 /*

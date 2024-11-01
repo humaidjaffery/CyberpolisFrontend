@@ -1,19 +1,35 @@
-<h1 class="text-7xl">{{courseName}}</h1>
-
-<div>
-    @for(module of modules; track module; let i = $index){
-        <div class="p-5 m-5 outline rounded-md flex">
-            <h1 class="basis-4/5 text-white text-2xl">{{module.moduleName}}</h1>
-            @if (module.hasCompleted) {
-                <button class="float-right p-5 outline rounded-md bg-green-200"> View Again </button>
-            } @else if (module.hasStarted) {
-                <button class="float-right p-5 outline rounded-md bg-yellow-200"> Finish </button>
-            } @else {
-                <button class="float-right p-5 outline rounded-md" (click)="goToModule(module.moduleId)"> Start </button>
-            }
-        </div>
-    }
+<div
+    class="fixed inset-0 bg-cover bg-center bg-fixed -z-10"
+    style="
+      background-image: url('cyber_jungle.jpg');
+      background-attachment: fixed;
+    "
+  >
+    <div class="absolute inset-0 bg-black opacity-80 -z-10"></div>
 </div>
+
+<div class="w-full h-full z-20">
+    <h1 class="text-7xl text-center mt-10">{{courseName}}</h1>
+    <h1 class="text-xl text-center"> Sau Paulo, Brazil</h1>
+
+    
+    <div>
+        @for(module of modules; track module; let i = $index){
+            <div class="p-5 m-5 outline rounded-md flex">
+                <h1 class="basis-4/5 text-white text-2xl">{{module.moduleName}}</h1>
+                @if (module.hasCompleted) {
+                    <button class="basis-1/5 float-right p-5 outline rounded-md" (click)="goToModule(module.moduleId)"> View Again </button>
+                } @else if (module.hasStarted) {
+                    <button class="basis-1/5 float-right p-5 outline rounded-md outline-accent hover:scale-105 hover:bg-accent   transition duration-200" (click)="goToModule(module.moduleId)"> Finish </button>
+                } @else {
+                    <button class="basis-1/5 float-right p-5 outline rounded-md outline-accent2 hover:scale-105 hover:bg-accent2 transition duration-200 " (click)="goToModule(module.moduleId)"> Start </button>
+                }
+            </div>
+        }
+    </div>
+
+</div>
+
 
 
   

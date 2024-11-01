@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 
 import 'ace-builds/src-noconflict/ace';
@@ -8,35 +8,44 @@ import { ModuleService } from '../module.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserModuleService } from '../user-module.service';
 import { ChatService } from '../chat.service';
+import katex, {KatexOptions} from 'katex';
 
-import * as d3 from 'd3';
-import { LinearRegressionCostComponent } from '../interactive/linear-regression-cost/linear-regression-cost.component';
+
 
 
 @Component({
   selector: 'app-module',
   templateUrl: './module.component.html',
-  styleUrl: './module.component.css'
+  styleUrl: './module.component.css',
 })
 export class ModuleComponent implements OnInit, AfterViewInit {
   isBrowser: any;
+  messages: any[] = []
+  replies: string[] = []
+  questions: any[] = [ ];
+  canvasElement: HTMLCanvasElement | null | undefined;
+  codeSaved = true
+  codeLineMode = false
   chatbotHelpHidden: boolean = true
-  messages: string[] = []
-  @ViewChild('chatInput') chatInput!: ElementRef;
-  questions: any[] = [
-    
-  ];
+  showTest: boolean = false
 
-  code: string = ''; // Initial code to display in the editor
+  code: string = ""; // Initial code to display in the editor
   moduleId: String = ''
   moduleInfo: any = {}
   userModuleInfo: any = {}
   content = ""
+
+  @ViewChild('chatInput') chatInput!: ElementRef;
   highlightButtonTop = -1
   highlightButtonLeft = -1
   highlight = ""
-  highlights: String[] = []
   message: String = ""
+  testResponse:any = []
+  selectedTest = -1
+
+  blockBankSolution: any[] = [];
+  blockBank: any[] = [];
+  blockMode: any[] = [];
 
   editorOptions = {
     fontSize: '16px',
@@ -48,16 +57,17 @@ export class ModuleComponent implements OnInit, AfterViewInit {
     private moduleService: ModuleService,
      public router: Router, private route: ActivatedRoute,
     private userModuleService: UserModuleService,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit() {
-    
+    this.codeSaved = true
     //getting route info
     this.route.params.subscribe({
       next: this.getModuleId.bind(this)
     })
-
+    
     //getting module Info
     this.moduleService.getModule(this.moduleId).subscribe({
       next: this.handleModuleInfo.bind(this),
@@ -69,7 +79,9 @@ export class ModuleComponent implements OnInit, AfterViewInit {
       next: this.handleUserModuleInfo.bind(this),
       error: this.handleError.bind(this)
     })
+
   }
+
 
   getModuleId(routeInfo: any){
     this.moduleId = routeInfo['module_id'];
@@ -77,10 +89,12 @@ export class ModuleComponent implements OnInit, AfterViewInit {
 
   handleModuleInfo(data: any){
     this.moduleInfo = data;
-    //Code
+    
+    //Initial Code
     for(var i=0; i<this.moduleInfo.initialModuleCode.length; i++ ){
       this.code += this.moduleInfo.initialModuleCode[i] + "\n"
     }
+    
 
     //Questions
     for(var i=0; i<this.moduleInfo.questions.length; i++){
@@ -94,22 +108,46 @@ export class ModuleComponent implements OnInit, AfterViewInit {
       }
       this.questions.push(question)
     }
+
+    //blocks
+    for(var i=0; i<this.moduleInfo.moduleCodeSolution.length; i++){
+      this.blockMode.push(false)
+      this.blockBank.push({
+        "verbose": this.moduleInfo.blocks[i],
+        "code": this.moduleInfo.moduleCodeSolution[i]
+      })
+    }
+
+    //shuffling blocks
+    this.blockBankSolution = [...this.blockBank]
+    this.blockBank = this.blockBank.sort(() => Math.random() - 0.5)
+    
+    //mixAndMatch
+    if(this.moduleInfo.mixAndMatch != null){
+      for(let i=0; i<this.moduleInfo.mixAndMatch.length; i++){
+        this.itemList.push({
+          "value": this.moduleInfo.mixAndMatch[i][0],
+          "match": i
+        });
+        this.itemList.push({
+          "value": this.moduleInfo.mixAndMatch[i][1],
+          "match": i
+        });
+      }
+
+      //shuffling mix and match
+      this.itemList = this.itemList.sort(() => Math.random() - 0.5)
+      //correctMixAndMatch
+      for(let i = 0; i<this.moduleInfo.mixAndMatch.length; i++){
+        this.correctMixAndMatch.push(false, false)
+      }
+    }
+    
     console.log(this.moduleInfo)
   }
 
   handleUserModuleInfo(data: any){
-
-    //first time visit
-    if(data === null){
-      this.userModuleService.addUserModuleRelation(this.moduleId).subscribe({
-        next: this.handleUserModuleInfo.bind(this),
-        error: this.handleError.bind(this)
-      })
-      return
-    }
-
     this.userModuleInfo = data
-
     console.log(this.userModuleInfo)
 
     //questions
@@ -119,6 +157,22 @@ export class ModuleComponent implements OnInit, AfterViewInit {
         this.questions[i].selectedChoice = this.questions[i].answer
       }
     }
+
+    //code
+    this.code = ""
+    for(var i=0; i<this.userModuleInfo.moduleUserCode.length; i++ ){
+      this.code += this.userModuleInfo.moduleUserCode[i] + "\n"
+    }
+    //message History
+    this.userModuleInfo.messageHistory.forEach((element: any) => {
+        this.messages.push({
+          "content": element.prompt,
+          "date": element.date
+        }, {
+          "content": element.reply,
+          "date": element.date
+        })
+    });
   }
 
   handleError(error: any){
@@ -130,65 +184,82 @@ export class ModuleComponent implements OnInit, AfterViewInit {
   }
   
   onCodeChanged(event: any) {
-    console.log(this.code.split("\n")[0]);
+    // console.log(this.code.split("\n")[0]);
+    this.codeSaved = false  
   }
 
   runCode(){
+    this.showTest = false
     this.userModuleService.runCode(this.code.split("\n"), this.moduleId).subscribe({
       next: this.handleCodeSubmission.bind(this),
       error: this.handleError.bind(this)
     })
+
+  }
+
+  saveCode(){
+    this.userModuleService.saveCode(this.code.split("\n"), this.moduleId).subscribe({
+      error: this.handleError.bind(this)
+    })
+    setTimeout(() => {
+      this.codeSaved = true;
+    }, 250);
   }
 
   handleCodeSubmission(response: any){
     console.log(response)
-  }
-  
-  // Block bank with predefined blocks
-  blockBank: any[] = [{
-    'text': 'for every number between 1 and 10:', 
-    'value': 'for i in range(10):'
-  }, {
-    'text': 'if var is True:', 
-    'value': 'if var == True'
-  }];
+    this.testResponse = response
+    this.showTest = true
 
-  // Active blocks list
-  activeBlocks: any[] = [];
+    for(let i=0; i<this.testResponse.length; i++){
+      if(this.testResponse[i].passed){
+        this.userModuleInfo.testsPassed[i] = true
+      }
+    }
+
+    this.checkIfComplete()
+  }
+
+  checkIfComplete(){
+    if(this.userModuleInfo.testsPassed.indexOf(false) == -1 && this.userModuleInfo.questionsCorrect.indexOf(false) == -1){
+      this.userModuleInfo.completed = true
+    }
+  }
 
   ngAfterViewInit(): void {
+    //Enter Shortcut for chat message
     this.chatInput.nativeElement.addEventListener('keyup', (event: KeyboardEvent) => {
-      if (event.key === 'Enter') {
+      if (event.key === 'Enter' && event.shiftKey) {
+        this.message += "\n"
+      } else if (event.key == 'Enter'){
         this.sendMessage();
       }
-    });
+    });  
+
+    //Lottie for Ripple Save 
+    // this.canvasElement = document.querySelector('#ripple-save') as HTMLCanvasElement | null;
+
+    // if (this.canvasElement) {
+    //   const dotLottie = new DotLottie({
+    //     autoplay: true,
+    //     loop: true,
+    //     canvas: this.canvasElement,
+    //     src: "https://lottie.host/fe2754b8-c3c0-4406-9511-058f08133a3f/fzIyfXvoap.json", // replace with your .lottie or .json file URL
+    //   });
+    // } else {
+    //   console.error('Canvas element not found');
+    // }
   }
 
-  onMessageChanged(){
-    console.log(this.message)
-    if(this.message[this.message.length-1] == '@'){
-      console.log("Adawd")
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    // Check if 'Ctrl' and 'S' are pressed simultaneously
+    if (event.ctrlKey && event.key === 's') {
+      event.preventDefault(); // Prevent the browser's default save dialog
+      this.saveCode(); // Call your save function
     }
   }
 
-  sendMessage() {
-    const inputElement = this.chatInput.nativeElement;
-    const message = inputElement.value.trim();
-    if (message) {
-      this.messages.push(message);
-      inputElement.value = ''; 
-    }
-    
-    this.chatService.sendMessage(this.moduleId, message, []).subscribe({
-      next: this.handleNewChatMessage.bind(this),
-      error: this.handleError.bind(this)
-    })
-
-  }
-
-  handleNewChatMessage(data: any){
-    console.log(data)
-  }
 
   onTextSelect(data: any){
     var selection = window.getSelection();
@@ -196,88 +267,149 @@ export class ModuleComponent implements OnInit, AfterViewInit {
       this.highlight = selection.toString() 
       const range = selection.getRangeAt(0).getBoundingClientRect();
       this.highlightButtonTop = range.top + window.scrollY - 30; 
-      this.highlightButtonLeft = range.left + window.scrollX;
+      this.highlightButtonLeft = ((range.left + range.right)/2) + window.scrollX;
     } else {
       this.highlight = ""
     }
   }
 
   saveHighlight(){
-    console.log(this.highlight)
-    this.highlights.push(this.highlight)
+    this.message += " '" + this.highlight + "' "
     this.highlight = ""
-    // window.open("https://localhost:4200/home", "_blank");  
+    this.showChat()
   }
 
-  
+  focusedHighlight = 0;
 
-  // Handle the drop event
-  drop(event:any, targetList: string) {
-    if(!event.isPointerOverContainer){
-      if(targetList === 'active'){
-        this.blockBank.push(this.activeBlocks.splice(parseInt(event.item.element.nativeElement.id), 1)[0])
-      }
+  // Block Drop Event
+  drop(event:any) {
+      moveItemInArray(this.blockBank, event.previousIndex, event.currentIndex);
+  }
+
+  selectedTab: string = 'code';
+
+  selectTab(tab: string) {
+    this.selectedTab = tab;
+  }
+
+  showChat(){
+    this.chatbotHelpHidden = false
+    this.chatbotPopup.nativeElement.focus()
+  }
+
+  chatInputFocus(){
+    this.chatBotInputHeight = (this.chatbotHeight / 2)
+    console.log(this.chatBotInputHeight)
+  }
+
+  chatInputBlur(){
+    this.chatBotInputHeight = this.chatbotHeight / 6
+    console.log(this.chatBotInputHeight)
+  }
+
+  isFullScreen(){
+    return this.chatbotHeight == window.innerHeight
+  }
+
+  chatFullScreen(){
+    if(this.chatbotHeight == window.innerHeight){
+      this.chatbotHeight = window.innerHeight / 1.5
+    } else {
+      this.chatbotHeight = window.innerHeight
     }
+    console.log(this.chatbotHeight, this.chatBotInputHeight)
+  }
 
-    //from bank to active
-    if (targetList === 'active') {
-      //if moving block within active section
-      if (event.previousContainer.data == event.container.data){
-        moveItemInArray(this.activeBlocks, event.previousIndex, event.currentIndex);
+  sendMessage() {
+    const inputElement = this.chatInput.nativeElement;
+    const message = inputElement.value.trim();
+    if(!message) {
+      return;
+    }
+    inputElement.value = ''; 
+    this.messages.push({"content": message})
+    this.chatService.sendMessage(this.moduleId, message,).subscribe({
+      next: this.handleNewChatMessage.bind(this),
+      error: this.handleError.bind(this)
+    })
+  }
+
+
+  usedTokens: number;
+  handleNewChatMessage(data: any){
+    if(data.outOfTokens){
+      this.messages.push("Sorry, You are out of silicon chips")
+      this.chatInput.nativeElement.disabled = true
+    }
+    this.messages.pop()
+    this.messages.push({
+      "content": data.prompt,
+      "date": data.date
+    },{
+      "content": data.reply,
+      "date": data.date
+    })
+    this.usedTokens = data.tokens
+    this.userModuleInfo.currency -= data.tokens
+  }
+
+  onMessageChanged(){
+    if(this.codeLineMode === true){
+      let codeLine = this.message.split('@')
+      if(codeLine.length > 2){
+        this.codeLineMode = false
         return
       }
 
-      // When dropped from bank into the active list
-      this.activeBlocks.push(this.blockBank.splice(parseInt(event.item.element.nativeElement.id), 1)[0])
-      return
+      if(this.message[this.message.length-1] == " "){
+        console.log("EXECUTE LINE")
+        let ends = codeLine[1].split("-")
+        let lines: number[] = []
+        if(ends.length > 1){
+          for(let i = parseInt(ends[0]); i<parseInt(ends[ends.length-1])+1; i++){
+            lines.push(i)
+          }
+        } else {
+          lines.push(parseInt(ends[0]))
+        }
+
+        let codeHighlight = ""
+        let codeArray = this.code.split("\n") 
+        lines.forEach((line) => {
+          if(line < codeArray.length && line > 0){
+            codeHighlight += codeArray[line-1] + "\n"
+          }
+        })
+        
+        //Changing the message of the input
+        this.message = this.message.split("@")[0]  
+          //TO DO: Change the style of just the codeHighlight PART and add an 'X' button to delete all of it quickly 
+        this.message += "\n```\n" + codeHighlight +"```\n"
+        this.codeLineMode = false
+      }
     }
 
-    //if moving within bank 
-    if (event.previousContainer.data == event.container.data){
-      moveItemInArray(this.blockBank, event.previousIndex, event.currentIndex);
-      return
+    if(this.message[this.message.length-1] == '@'){
+      this.codeLineMode = true
+      console.log("SPECIAL")
     }
-    //Dropping into bank
-    this.blockBank.push(this.activeBlocks.splice(parseInt(event.item.element.nativeElement.id), 1)[0])
-  }
-
-  selected: string = 'block';
-
-  selectTab(tab: string) {
-    this.selected = tab;
-  }
-
-  @ViewChild('chatbotPopup') chatbotPopup!: ElementRef;
-  chatbotHeight: number = 300; // Initial height
-  isDragging: boolean = false;
-
-  onResizeStart(event: MouseEvent) {
-    this.isDragging = true;
-    event.preventDefault();
-    document.addEventListener('mousemove', this.onResize);
-    document.addEventListener('mouseup', this.onResizeEnd);
-  }
-
-  onResize = (event: MouseEvent) => {
-    if (this.isDragging) {
-      const newHeight = window.innerHeight - event.clientY;
-      this.chatbotHeight = Math.max(100, Math.min(newHeight, window.innerHeight - 100));
-    }
-  }
-
-  onResizeEnd = () => {
-    this.isDragging = false;
-    document.removeEventListener('mousemove', this.onResize);
-    document.removeEventListener('mouseup', this.onResizeEnd);
   }
 
   @ViewChild('contentSection') contentSection!: ElementRef;
   @ViewChild('workSection') workSection!: ElementRef;
+  @ViewChild('testSection') testSection!: ElementRef;
+  @ViewChild('chatbotPopup') chatbotPopup!: ElementRef;
+  chatbotHeight: number = window.innerHeight / 1.5; // Initial height
+  chatBotInputHeight: number = this.chatbotHeight / 6
+  isDragging: boolean = false;
   
   isDraggingDivider: boolean = false;
-  contentWidth: number = 50; // Initial width percentage
+  contentWidth: number = 50; 
+  testHeight = window.innerHeight / 3;
+  resizeType: String = "content"
 
-  onDividerResizeStart(event: MouseEvent) {
+  onDividerResizeStart(event: MouseEvent, type: String) {
+    this.resizeType = type
     this.isDraggingDivider = true;
     event.preventDefault();
     document.addEventListener('mousemove', this.onDividerResize);
@@ -286,9 +418,17 @@ export class ModuleComponent implements OnInit, AfterViewInit {
 
   onDividerResize = (event: MouseEvent) => {
     if (this.isDraggingDivider) {
-      const containerWidth = this.contentSection.nativeElement.parentElement.offsetWidth;
-      const newContentWidth = (event.clientX / containerWidth) * 100;
-      this.contentWidth = Math.max(20, Math.min(newContentWidth, 80)); // Limit between 20% and 80%
+      if(this.resizeType == "content"){
+        const containerWidth = this.contentSection.nativeElement.parentElement.offsetWidth;
+        const newContentWidth = (event.clientX / containerWidth) * 100;
+        this.contentWidth = Math.max(20, Math.min(newContentWidth, 99));
+      } else if (this.resizeType == "test"){
+        const newHeight = window.innerHeight - event.clientY;
+        this.testHeight = Math.max(100, Math.min(newHeight, window.innerHeight - 100));
+      } else if (this.resizeType == "chat"){
+        const newHeight = window.innerHeight - event.clientY;
+        this.chatbotHeight = Math.max(100, Math.min(newHeight, window.innerHeight - 100));
+      }
     }
   }
 
@@ -307,19 +447,58 @@ export class ModuleComponent implements OnInit, AfterViewInit {
     console.log(this.questions[questionIndex]['answer'])
     if (this.questions[questionIndex]['selectedChoice'] == this.questions[questionIndex]['answer']){
       this.userModuleInfo.questionsCorrect[questionIndex] = true;
+      
       this.userModuleService.updateCorrectQuestion(this.moduleId, this.userModuleInfo.questionsCorrect).subscribe({
-        next: this.handleCorrectAnswer.bind(this),
+        next: this.handleUpdateQuestion.bind(this),
         error: this.handleError.bind(this)
       })
+      return
     }
     this.questions[questionIndex].incorrectChoices.push(this.questions[questionIndex].selectedChoice)
     console.log(this.questions[questionIndex].incorrectChoices)
   }
 
-  handleCorrectAnswer(data: any){
-    this.userModuleInfo.questionsCorrect = data
-    console.log(data == this.userModuleInfo.questionsCorrect)
+  handleUpdateQuestion(tokens){
+    this.userModuleInfo.currency = tokens
   }
 
+  selectedLeft: number = -1;
+  selectedRight: number = -1;
+  correctMixAndMatch: Boolean[] = [];
+  itemList: any = []
+  incorrectMixAndMatch: number[] = []
 
+  mixAndMatchSelect(index: number){
+    console.log(this.selectedLeft, this.selectedRight)
+    this.incorrectMixAndMatch = []
+    if(this.selectedLeft < 0){
+      this.selectedLeft = index
+      console.log("FiRST", this.selectedLeft)
+      return
+    }
+
+    if(this.selectedRight < 0 && this.selectedLeft != index){
+      console.log("SECOND", this.selectedRight)
+      this.selectedRight = index
+    }
+
+    //match
+    if(this.itemList[this.selectedLeft].match == this.itemList[this.selectedRight].match && this.selectedLeft != this.selectedRight){
+      console.log("MATCH")
+      //update Correct Mix and Match
+      this.correctMixAndMatch[this.selectedLeft] = true
+      this.correctMixAndMatch[this.selectedRight] = true
+    }  else {
+      console.log("INCORRECT")
+      this.incorrectMixAndMatch.push(this.selectedLeft, this.selectedRight)
+    }
+
+    this.selectedRight = -1
+    this.selectedLeft = -1
+  }
+
+  renderToString(equation: string){
+    return katex.renderToString(equation, { errorColor: "#FF0000", output: 'html', })
+  }
+  
 }

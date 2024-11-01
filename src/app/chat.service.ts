@@ -10,8 +10,8 @@ export class ChatService {
 
   constructor(private http: HttpClient) { }  
 
-  public sendMessage(moduleId: String, message: String, highlights: String[] ): Observable<any> {
-    return this.http.post(`${environment.apiServerUrl}/chat/newMessage/${moduleId}`, {"message": message, "highlights": highlights}).pipe(
+  public sendMessage(moduleId: String, message: String): Observable<any> {
+    return this.http.post(`${environment.apiServerUrl}/chat/newMessage/${moduleId}`,  message).pipe(
       map((response: any) => {
           return response;
       })

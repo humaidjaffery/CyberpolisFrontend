@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 
+import { provideCacheableAnimationLoader, provideLottieOptions } from 'ngx-lottie';
+import player from 'lottie-web';
+
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SignupComponent } from './signup/signup.component';
@@ -14,7 +18,10 @@ import { ModuleComponent } from './module/module.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AceEditorModule } from 'ngx-ace-editor-wrapper';
 import { JwtInterceptor } from './jwt.interceptor';
-import { LinearRegressionCostComponent } from './interactive/linear-regression-cost/linear-regression-cost.component';
+import { LinearRegressionCostComponent } from './interactive/linear-regression/linear-regression-cost/linear-regression-cost.component';
+import { StoryComponent } from './story/story.component';
+import { NgxKatexComponent } from 'ngx-katex'
+
 
 @NgModule({
   declarations: [
@@ -25,22 +32,25 @@ import { LinearRegressionCostComponent } from './interactive/linear-regression-c
     HomeComponent,
     CourseComponent,
     ModuleComponent,
-    LinearRegressionCostComponent
+    LinearRegressionCostComponent,
+    StoryComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     DragDropModule, 
-    AceEditorModule 
+    AceEditorModule,
+    NgxKatexComponent
   ],
   providers: [
     provideClientHydration(),
     provideHttpClient(
       withInterceptors([JwtInterceptor])
     ),
-    
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+
