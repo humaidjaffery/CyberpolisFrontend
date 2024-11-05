@@ -3,7 +3,7 @@
   <div
     class="absolute inset-0 bg-cover bg-center bg-fixed"
     style="
-      background-image: url('cyber_jungle.jpg');
+      background-image: url('{{mediaCdnUrl}}{{this.moduleInfo.course.courseId}}/bg.jpg');
       background-attachment: fixed;
     "
   >
@@ -24,7 +24,7 @@
       >
       <div class="flex w-full flex-col">
         <div class="w-full flex" (click)="goToCourse()">
-          <small class="text-sm p-1" >{{moduleInfo?.course?.courseName}} > {{moduleInfo?.moduleName}}</small>
+          <small class="text-sm p-1 hover:scale-105 hover:cursor-pointer" ><span class="underline "> {{moduleInfo?.course?.courseName}} </span> > {{moduleInfo?.moduleName}}</small>
         </div>
         <div class="py-3">
           <h1 class="text-7xl">{{moduleInfo?.moduleName}}</h1>
@@ -162,7 +162,7 @@
               class="bg-accent2 text-white p-2 rounded-md shadow-lg flex flex-row z-0"
               (click)="this.chatbotHelpHidden = true"
             >
-              <img src="angle-down-solid.svg" class="w-6 h-6" />
+              <img src="assets/angle-down-solid.svg" class="w-6 h-6" />
             </button>
           </div>
         </div>
@@ -174,21 +174,26 @@
               'border-l-2 border-accent2 mb-8': i % 2 == 1
             }">
             @if (i % 2 == 1) {
-              <img src="lucid.png" class="w-[80px] h-[80px] m-3 my-auto">
+              <img [src]="mediaCdnUrl + 'lucid.png'" class="w-[80px] h-[80px] m-3 my-auto">
             }
             @if (i % 2 == 0 && msg.date) {
               <div class="flex flex-col mr-3">
                 <small class="text-sm font-extralight">{{msg.date.split(" ")[0]}}</small>
               </div>
             }
-            <p class="text-xl p-1">{{ msg.content }}</p>
+            <p class="text-lg p-1">{{ msg.content }}</p>
           </div>
           }
         </div>
         <div
-          [style.height.px]="chatBotInputHeight * 10"
-          class=" p-4 border-t-2  border-gray-700 overflow-y-auto no-scrollbar whitespace-normal break-words flex flex-col transition-all duration-200 "
+          
+          class=" px-4 border-t-2 border-gray-700 overflow-y-auto no-scrollbar whitespace-normal break-words flex flex-col"
         >
+        <div class="h-5 cursor-ns-resize" 
+        (mousedown)="onDividerResizeStart($event, 'chatInput')"
+        >
+
+        </div>
           <!-- <div [hidden]="highlights.length == 0" class="w-full max-h-36 overflow-y-scroll no-scrollbar flex flex-row">
             @for (h of highlights; track h; let i=$index){
               @if (i == focusedHighlight){
@@ -214,8 +219,9 @@
             (ngModelChange)="onMessageChanged()"
             (focus)="chatInputFocus()"
             (blur)="chatInputBlur()"
-            class="w-full  bg-transparent text-white focus:outline-none transition-all duration-200 overflow-y-hidden text-xl"
-            placeholder="Type @2-5 to paste lines 2-5 in your code&#10;Type [Shift] + [Enter] for a new line"
+            [style.height.px]="chatBotInputHeight"
+            class="w-full  bg-transparent text-white focus:outline-none transition-all duration-200 overflow-y-hidden text-lg"
+            placeholder="Type @2-5 to paste lines 2-5 in your code&#10;Highlight module text to auto-copy&#10;Type [Shift] + [Enter] for a new line"
             [disabled]="userModuleInfo.currency <= 0"
           ></textarea>
         </div>
@@ -306,7 +312,7 @@
             (click)="runCode()"
             >
             <img
-              src="paper-plane-regular.svg"
+              src="assets/paper-plane-regular.svg"
               class="w-6 h-6 max-w-[1em] max-h-[1em] mr-2"
             />
             <h1 class=" text-black text-lg" >Run</h1>
@@ -471,7 +477,7 @@
   </div>
 
   <!--ChatBot Help Button-->
-  <img src="lucid.png"         
+  <img [src]="mediaCdnUrl + 'lucid.png'"         
   (click)="showChat()"
   class="w-16 fixed bottom-4 right-4 z-20 bg-gradient-to-br  from-accent2 to-accent rounded-md hover:bg-gradient-to-r hover:from-accent2 hover:to-accent focus:outline-none focus:ring-2 focus:ring-accent neon-glow"> 
 

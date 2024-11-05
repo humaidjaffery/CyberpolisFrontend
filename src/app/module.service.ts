@@ -25,7 +25,7 @@ export class ModuleService {
     )
   }
 
-  public getModule(moduleId: String): Observable<any> {
+  public getModule(moduleId: string): Observable<any> {
     return this.http.get(`${environment.apiServerUrl}/module/get/${moduleId}`, httpOptions).pipe(
       map((response: any) => {
           return response;

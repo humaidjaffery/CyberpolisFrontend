@@ -2,7 +2,7 @@
 <div
 class="fixed inset-0 bg-cover bg-center bg-fixed z-0"
 style="
-  background-image: url('ng.jpeg');
+  background-image: url('{{mediaCdnUrl}}hero4.jpg');
   background-attachment: fixed;
 "
 >
@@ -30,7 +30,7 @@ style="
               Welcome <span class="font-bold px-1">{{userInfo.displayName}}</span>
             </h1>
             <div class="flex flex-row justify-center">
-              <img class="w-[30px] h-[30px] my-auto" src="chip.png" />
+              <img class="w-[30px] h-[30px] my-auto" src="assets/chip.png" />
               <h1 class="text-3xl p-3 my-auto"> {{userInfo.currency}}</h1>
             </div>
           </div>
@@ -47,13 +47,13 @@ style="
             </div>
           </div>
   
-          <div class="basis-1/4 w-full flex justify-center items-center hover:scale-105">
+          <!-- <div class="basis-1/4 w-full flex justify-center items-center hover:scale-105">
             <div class="relative outline outline-accent rounded-md w-3/4 h-1/2 flex align-middle justify-center"> 
               <div class="absolute inset-1 flex-col justify-center align-middle" (click)="jumpToMostRecent()"> 
                 <h1 class="text-center my-auto text-2xl">Jump In</h1>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -63,6 +63,7 @@ style="
   <div class="m-10 z-10 flex flex-col justify-center align-middle gap-y-14 h-full">
     <h1 class="text-center text-7xl "> Algorithms </h1>
     @for (c of courses; track c; let i = $index){
+    
     <div class="outline rounded-md w-10/12 h-52 bg-fblack text-center flex flex-row justify-center transition-all duration-500 ease-in-out mx-auto"
     [ngClass]="{
       'outline-8 outline-accent min-h-96 scale-110': this.courseHover == i,
@@ -71,16 +72,21 @@ style="
     (mouseenter)="this.courseHover = i"
     (mouseleave)="this.courseHover = -1"
     >
+    @if (this.courseHover == i) {
+      <img class="-z-20 absolute w-full h-full" [src]="mediaCdnUrl + c.courseId + '/bg.jpg'">
+      <div class="-z-10 absolute inset-0 bg-black opacity-70"></div>
+    }
     <!--MAP -->
     @if (this.courseHover == i) {
       <div class="w-1/3 my-auto ml-3 mx-auto">
-        <img src="brazil.png" class="w-full">
+        <img [src]="mediaCdnUrl + c.courseId + '/globe.png'" class="w-full">
       </div>
     }
     <div class="w-2/3 flex flex-col justify-center align-middle my-auto">
       <h1 class="text-3xl text-teal-200 font-semibold p-5">{{ c.courseName }}</h1>
       @if(this.courseHover == i){
-        <p class="mx-auto text-lg w-1/2 text-center"> Linear regression is the foudation of machine learning. This course will take a deep dive into linear regression and you should intuitively understand what linear regression is and how it works fundamentally </p>
+        
+        <p class="mx-auto text-lg w-1/2 text-center"> {{c.explanation}} </p>
       }
         <button
           class="outline-none w-1/2 text-center mx-auto outline-accent2 rounded-md p-3 m-5 text-2xl text-accent2 hover:scale-105 hover:bg-accent2 hover:outline-accent hover:text-accent"

@@ -8,7 +8,7 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  errors: String[] = [];
+  errors: string[] = [];
 
   constructor(private route: ActivatedRoute, private authService: AuthService, public router: Router) { }
 

@@ -2,6 +2,7 @@ import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular
 import { CourseService } from '../course.service';
 import { Router } from '@angular/router';
 import { error } from 'console';
+import { environment } from '../../environments/environment';
 import { AuthService } from '../auth.service';
 
 import * as d3 from 'd3'
@@ -15,9 +16,10 @@ import * as topojson from 'topojson-client';
 export class HomeComponent implements OnInit {
   courses: any[] = [];
   userInfo: any = {}
-  speed: number = 0.02
+  speed = 0.02
+  mediaCdnUrl = environment.mediaCdnUrl
 
-  courseHover: number = -1;
+  courseHover = -1;
   
   windowWidth: number = window.innerWidth;
 
@@ -43,16 +45,15 @@ export class HomeComponent implements OnInit {
       })
 
       this.createGlobe()
-
-      
   }
 
   populateCourses(data: any){
     this.courses = data
+    console.log(this.courses)
   }
 
 
-  goToCourse(courseId: any, courseName: String){
+  goToCourse(courseId: any, courseName: string){
     console.log(courseId)
     this.router.navigate(['/course', courseId, courseName])
   }
@@ -161,7 +162,7 @@ export class HomeComponent implements OnInit {
   }
 
   jumpToMostRecent(){
-
+    
   }
 
 

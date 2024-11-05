@@ -8,11 +8,11 @@ import * as d3 from 'd3'
   styleUrl: './linear-regression-cost.component.css'
 })
 export class LinearRegressionCostComponent implements OnInit {
-  @Input('data') data: any = [[5, 10], [10, 12], [15, 8], [20, 14]]; // Example data points
+  @Input() data: any = [[5, 10], [10, 12], [15, 8], [20, 14]]; // Example data points
   ;
 
-  m: number = 2; // slope (default)
-  b: number = 1; // intercept (default)
+  m = 2; // slope (default)
+  b = 1; // intercept (default)
 
   private svg: any;
   private margin = {top: 20, right: 30, bottom: 30, left: 40};
@@ -23,7 +23,7 @@ export class LinearRegressionCostComponent implements OnInit {
   private line: any;
   public cost!: number;
 
-  private rotation: number = 0;
+  private rotation = 0;
 
 
   ngOnInit(): void {
@@ -99,8 +99,8 @@ export class LinearRegressionCostComponent implements OnInit {
   calculateCost(){
     let cost = 0
     for(let i=0; i<this.data.length; i++){
-      let predicted = this.m * this.data[i][0] + this.b
-      let actual = this.data[i][1]
+      const predicted = this.m * this.data[i][0] + this.b
+      const actual = this.data[i][1]
 
       console.log("\n")
       console.log("PREDICTED ", predicted);

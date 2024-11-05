@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserModuleService } from '../user-module.service';
 import { ChatService } from '../chat.service';
 import katex, {KatexOptions} from 'katex';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -19,6 +20,7 @@ import katex, {KatexOptions} from 'katex';
   styleUrl: './module.component.css',
 })
 export class ModuleComponent implements OnInit, AfterViewInit {
+  mediaCdnUrl = environment.mediaCdnUrl
   isBrowser: any;
   messages: any[] = []
   replies: string[] = []
@@ -26,11 +28,11 @@ export class ModuleComponent implements OnInit, AfterViewInit {
   canvasElement: HTMLCanvasElement | null | undefined;
   codeSaved = true
   codeLineMode = false
-  chatbotHelpHidden: boolean = true
-  showTest: boolean = false
+  chatbotHelpHidden = true
+  showTest = false
 
-  code: string = ""; // Initial code to display in the editor
-  moduleId: String = ''
+  code = ""; // Initial code to display in the editor
+  moduleId = ''
   moduleInfo: any = {}
   userModuleInfo: any = {}
   content = ""
@@ -39,7 +41,7 @@ export class ModuleComponent implements OnInit, AfterViewInit {
   highlightButtonTop = -1
   highlightButtonLeft = -1
   highlight = ""
-  message: String = ""
+  message = ""
   testResponse:any = []
   selectedTest = -1
 
@@ -98,7 +100,7 @@ export class ModuleComponent implements OnInit, AfterViewInit {
 
     //Questions
     for(var i=0; i<this.moduleInfo.questions.length; i++){
-      let question = {
+      const question = {
         "question": this.moduleInfo.questions[i]['question'],
         "choices": this.moduleInfo.questions[i]['choices'],
         "answer": this.moduleInfo.questions[i]['answer'],
@@ -262,7 +264,7 @@ export class ModuleComponent implements OnInit, AfterViewInit {
 
 
   onTextSelect(data: any){
-    var selection = window.getSelection();
+    const selection = window.getSelection();
     if (selection && selection.toString()) {
       this.highlight = selection.toString() 
       const range = selection.getRangeAt(0).getBoundingClientRect();
@@ -277,6 +279,7 @@ export class ModuleComponent implements OnInit, AfterViewInit {
     this.message += " '" + this.highlight + "' "
     this.highlight = ""
     this.showChat()
+    this.chatInputFocus()
   }
 
   focusedHighlight = 0;
@@ -286,7 +289,7 @@ export class ModuleComponent implements OnInit, AfterViewInit {
       moveItemInArray(this.blockBank, event.previousIndex, event.currentIndex);
   }
 
-  selectedTab: string = 'code';
+  selectedTab = 'code';
 
   selectTab(tab: string) {
     this.selectedTab = tab;
@@ -298,7 +301,7 @@ export class ModuleComponent implements OnInit, AfterViewInit {
   }
 
   chatInputFocus(){
-    this.chatBotInputHeight = (this.chatbotHeight / 2)
+    this.chatBotInputHeight = Math.max(this.chatBotInputHeight, this.chatbotHeight / 2)
     console.log(this.chatBotInputHeight)
   }
 
@@ -355,7 +358,7 @@ export class ModuleComponent implements OnInit, AfterViewInit {
 
   onMessageChanged(){
     if(this.codeLineMode === true){
-      let codeLine = this.message.split('@')
+      const codeLine = this.message.split('@')
       if(codeLine.length > 2){
         this.codeLineMode = false
         return
@@ -363,8 +366,8 @@ export class ModuleComponent implements OnInit, AfterViewInit {
 
       if(this.message[this.message.length-1] == " "){
         console.log("EXECUTE LINE")
-        let ends = codeLine[1].split("-")
-        let lines: number[] = []
+        const ends = codeLine[1].split("-")
+        const lines: number[] = []
         if(ends.length > 1){
           for(let i = parseInt(ends[0]); i<parseInt(ends[ends.length-1])+1; i++){
             lines.push(i)
@@ -374,7 +377,7 @@ export class ModuleComponent implements OnInit, AfterViewInit {
         }
 
         let codeHighlight = ""
-        let codeArray = this.code.split("\n") 
+        const codeArray = this.code.split("\n") 
         lines.forEach((line) => {
           if(line < codeArray.length && line > 0){
             codeHighlight += codeArray[line-1] + "\n"
@@ -401,14 +404,14 @@ export class ModuleComponent implements OnInit, AfterViewInit {
   @ViewChild('chatbotPopup') chatbotPopup!: ElementRef;
   chatbotHeight: number = window.innerHeight / 1.5; // Initial height
   chatBotInputHeight: number = this.chatbotHeight / 6
-  isDragging: boolean = false;
+  isDragging = false;
   
-  isDraggingDivider: boolean = false;
-  contentWidth: number = 50; 
+  isDraggingDivider = false;
+  contentWidth = 50; 
   testHeight = window.innerHeight / 3;
-  resizeType: String = "content"
+  resizeType = "content"
 
-  onDividerResizeStart(event: MouseEvent, type: String) {
+  onDividerResizeStart(event: MouseEvent, type: string) {
     this.resizeType = type
     this.isDraggingDivider = true;
     event.preventDefault();
@@ -428,6 +431,10 @@ export class ModuleComponent implements OnInit, AfterViewInit {
       } else if (this.resizeType == "chat"){
         const newHeight = window.innerHeight - event.clientY;
         this.chatbotHeight = Math.max(100, Math.min(newHeight, window.innerHeight - 100));
+      } else if (this.resizeType == "chatInput"){
+        console.log("here")
+        const newHeight = window.innerHeight - event.clientY;
+        this.chatBotInputHeight = Math.max(5000, Math.min(newHeight, window.innerHeight - 100));
       }
     }
   }
@@ -439,7 +446,7 @@ export class ModuleComponent implements OnInit, AfterViewInit {
   }
 
 
-  selectChoice(questionIndex: number, choice: String) {
+  selectChoice(questionIndex: number, choice: string) {
     this.questions[questionIndex]['selectedChoice'] = choice;
   }
 
@@ -462,9 +469,9 @@ export class ModuleComponent implements OnInit, AfterViewInit {
     this.userModuleInfo.currency = tokens
   }
 
-  selectedLeft: number = -1;
-  selectedRight: number = -1;
-  correctMixAndMatch: Boolean[] = [];
+  selectedLeft = -1;
+  selectedRight = -1;
+  correctMixAndMatch: boolean[] = [];
   itemList: any = []
   incorrectMixAndMatch: number[] = []
 

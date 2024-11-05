@@ -16,7 +16,7 @@ const httpOptions = {
 export class AuthService {
   private isBrowser: boolean;
 
-  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: object) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
     
@@ -33,9 +33,19 @@ export class AuthService {
       );
   }
 
-
   public signup(email: string, displayName: string, password: string): Observable<any> {
     return this.http.post(`${environment.apiServerUrl}/auth/signup`, {displayName, email, password}, httpOptions).pipe(
+      map((response: any) => {
+          if(response){
+            localStorage.setItem('jwt_token', response);
+          }
+          return response;
+      })
+    )
+  }
+
+  public guestUser(): Observable<any> {
+    return this.http.post(`${environment.apiServerUrl}/auth/guest`, {}, httpOptions).pipe(
       map((response: any) => {
           if(response){
             localStorage.setItem('jwt_token', response);

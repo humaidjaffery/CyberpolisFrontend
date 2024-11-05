@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ModuleService } from '../module.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -9,9 +10,12 @@ import { ModuleService } from '../module.service';
   styleUrl: './course.component.css'
 })
 export class CourseComponent implements OnInit {
-  courseName: string = "" 
-  courseId: string = ""
-  modules: any[] = [] 
+  mediaCdnUrl = environment.mediaCdnUrl
+  courseName = "" 
+  courseId = ""
+  modules: any[];
+  modulesStarted = 0;
+  modulesFinished = 0;
 
   constructor (private route: ActivatedRoute, private moduleService: ModuleService, private router: Router) {}
   
@@ -38,14 +42,30 @@ export class CourseComponent implements OnInit {
   }
 
   handleCourseInfo(data: any){
+    console.log(data)
     this.modules = data
-    
-    let temp = this.modules[0]
-    this.modules[0] = this.modules[2]
-    this.modules
+    const courseMap = new Map<string, object>();
+    for(let i=0; i<data.length; i++){
+      console.log()
+      if(data[i] != null){
+        courseMap.set(data[i].moduleId, data[i])
+        if(data[i].previous == null){
+          this.modules[0] = data[i]
+          console.log("first")
+          console.log(this.modules[0])
+        }
+      }
+    }
+
+    let i=0;
+    while(this.modules[i].next != null){
+      console.log("hello")
+      this.modules[i+1] = courseMap.get(this.modules[i].next)
+      i++ 
+    }
   }
 
-  goToModule(moduleId: String){
+  goToModule(moduleId: string){
     this.router.navigate(['module', moduleId])
   }
 

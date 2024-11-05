@@ -14,7 +14,7 @@ export class UserModuleService {
 
   constructor(private http: HttpClient) { }
 
-  public runCode(code: String[], module_id: String): Observable<any> {
+  public runCode(code: string[], module_id: string): Observable<any> {
     return this.http.post(`${environment.apiServerUrl}/userModule/runCode/${module_id}`, code, httpOptions).pipe(
       map((response: any) => {
           return response;
@@ -22,7 +22,7 @@ export class UserModuleService {
     )
   }
 
-  public saveCode(code: String[], module_id: String): Observable<any> {
+  public saveCode(code: string[], module_id: string): Observable<any> {
     return this.http.put(`${environment.apiServerUrl}/userModule/saveCode/${module_id}`, code, httpOptions).pipe(
       map((response: any) => {
           return response;
@@ -30,7 +30,7 @@ export class UserModuleService {
     )
   }
 
-  public getUserModuleRelation(module_id: String): Observable<any> {
+  public getUserModuleRelation(module_id: string): Observable<any> {
     return this.http.get(`${environment.apiServerUrl}/userModule/get/${module_id}`, httpOptions).pipe(
       map((response: any) => {
           return response;
@@ -38,7 +38,7 @@ export class UserModuleService {
     )
   }
 
-  public addUserModuleRelation(module_id: String): Observable<any> {
+  public addUserModuleRelation(module_id: string): Observable<any> {
     return this.http.post(`${environment.apiServerUrl}/userModule/add/${module_id}`, httpOptions).pipe(
       map((response: any) => {
           return response;
@@ -46,7 +46,7 @@ export class UserModuleService {
     )
   }
 
-  public updateCorrectQuestion(module_id: String, questionsCorrect: Boolean[]): Observable<any> {
+  public updateCorrectQuestion(module_id: string, questionsCorrect: boolean[]): Observable<any> {
     return this.http.put(`${environment.apiServerUrl}/userModule/update/correctQuestion/${module_id}`, questionsCorrect, httpOptions).pipe(
       map((response: any) => {
           return response;

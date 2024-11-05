@@ -31,18 +31,17 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
+              "src/assets",
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "src/assets"
               }
             ],
             "styles": [
               "node_modules/katex/dist/katex.min.css",
               "src/styles.css"
             ],
-            "scripts": [
-              
-            ],
+            "scripts": [],
             "server": "src/main.server.ts",
             "prerender": false,
             "ssr": false
@@ -53,7 +52,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumError": "2MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -95,6 +94,7 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
+              "src/assets",
               {
                 "glob": "**/*",
                 "input": "public"
@@ -110,11 +110,23 @@
               "node_modules/ace-builds/src-min-noconflict/theme-monokai.js"
             ]
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
   "cli": {
-    "analytics": "9967b128-4d5e-44ea-89e2-f8e940459610"
+    "analytics": "9967b128-4d5e-44ea-89e2-f8e940459610",
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }
