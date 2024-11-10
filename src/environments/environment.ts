@@ -3,9 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: true,
-  apiServerUrl: 'http://cyberpolisbackend-env-1.eba-f9i2d3eh.us-east-1.elasticbeanstalk.com',
-  // apiServerUrl: 'http://localhost:8080',
+  production: false,
+  // apiServerUrl: 'https://cyberpolisbackend-env.eba-f9i2d3eh.us-east-1.elasticbeanstalk.com',
+  // apiServerUrl: 'https://api.cyberpolisai.com',
+  apiServerUrl: 'http://localhost:5000',
   mediaCdnUrl: 'https://dulpe9vok4m1x.cloudfront.net/'
 };
 

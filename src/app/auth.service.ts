@@ -45,6 +45,7 @@ export class AuthService {
   }
 
   public guestUser(): Observable<any> {
+    console.log(environment.apiServerUrl)
     return this.http.post(`${environment.apiServerUrl}/auth/guest`, {}, httpOptions).pipe(
       map((response: any) => {
           if(response){

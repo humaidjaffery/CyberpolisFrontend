@@ -11,14 +11,14 @@ import { StoryComponent } from './story/story.component';
 
 const routes: Routes = [
   {path: 'auth', children: [
-    {path: 'login', component: LoginComponent},
-    {path: 'signup', component: SignupComponent},
+    // {path: 'login', component: LoginComponent},
+    // {path: 'signup', component: SignupComponent},
   ]},
   {path: '', component: HeroComponent,  },
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
   {path: 'course/:course_id/:course_name', component: CourseComponent, canActivate: [AuthGuard]},
   {path: 'module/:module_id', component: ModuleComponent, canActivate: [AuthGuard]},
-  {path: 'story', component: StoryComponent}
+  // {path: 'story', component: StoryComponent}
 ];
 
 @NgModule({

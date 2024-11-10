@@ -140,7 +140,7 @@ export class HomeComponent implements OnInit {
         .attr("class", "country")
         .attr("d", this.path)
         .attr("fill", (d: any) => {
-          if(d.properties.name == "Brazil"){
+          if(d.properties.name == "Morocco" || d.properties.name == ""){
             return "#B534FF"
           }
           return "#74C476";
@@ -162,7 +162,7 @@ export class HomeComponent implements OnInit {
   }
 
   jumpToMostRecent(){
-    
+
   }
 
 

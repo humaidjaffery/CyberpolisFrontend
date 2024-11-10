@@ -26,16 +26,29 @@ export class HeroComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.text = "Redirecting you now..."
-    }, 2500)
+    this.isLoggedIn = this.authService.isLoggedIn()
+    if(this.isLoggedIn){
+      this.text = "You are already logged in. Redirecting you to home..."
+    }
 
-    setTimeout(() => {
-      this.authService.guestUser().subscribe({
-        next: this.redirectGuestUser.bind(this),
-        error: this.handleError.bind(this)
-      })
-    }, 4000)
+    if(!this.isLoggedIn){
+      console.log("here")
+      setTimeout(() => {
+        this.text = "Redirecting you now..."
+      }, 2500)
+  
+      setTimeout(() => {
+        this.authService.guestUser().subscribe({
+          next: this.redirectGuestUser.bind(this),
+          error: this.handleError.bind(this)
+        })
+      }, 4000)
+    } else {
+      setTimeout(() => {
+        this.router.navigate(['home'])
+      }, 2500)
+    }
+    
   }
 
   redirectGuestUser(data){
