@@ -15,6 +15,7 @@ export class UserModuleService {
   constructor(private http: HttpClient) { }
 
   public runCode(code: string[], module_id: string): Observable<any> {
+    console.log(code)
     return this.http.post(`${environment.apiServerUrl}/userModule/runCode/${module_id}`, code, httpOptions).pipe(
       map((response: any) => {
           return response;

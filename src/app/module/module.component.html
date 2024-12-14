@@ -1,4 +1,4 @@
-<div class="z-0 relative min-h-screen w-screen overflow-y-scroll no-scrollbar">
+<div class="z-0 relative min-h-screen w-screen overflow-y-hidden no-scrollbar">
   <!-- Background Image with Tinted Overlay -->
   <div
     class="absolute inset-0 bg-cover bg-center bg-fixed"
@@ -7,7 +7,7 @@
       background-attachment: fixed;
     "
   >
-    <div class="absolute inset-0 bg-black opacity-70"></div>
+    <div class="absolute inset-0 bg-black opacity-85"></div>
   </div>
 
   <!--  Wrapper -->
@@ -31,16 +31,16 @@
         </div>
       </div >
         <div class="flex w-full flex-col text-xl" (mouseup)="onTextSelect($event)">
+          
 
-          <!-- <ngx-katex [equation]="'c = \\pm\\sqrt{a^2 + b^2}'"></ngx-katex> -->
+          <!-- <ngx-katex [equation]="'MSE = \\frac{1}{n} \\sum_{i=1}^n \\left( Y_{\\text{actual}, i} - Y_{\\text{predicted}, i} \\right)^2'" [options]="{displayMode: true}"></ngx-katex>
+          
+          <ngx-katex [equation]="'w = w - \\alpha \\frac{\\partial J(w,b)}{\\partial w}'" [options]="{displayMode: true}"></ngx-katex>  -->
+          
 
-          <!-- <ngx-katex [equation]="'MSE = \\frac{1}{n} \\sum_{i=1}^n \\left( Y_{\\text{actual}, i} - Y_{\\text{predicted}, i} \\right)^2'" [options]="{displayMode: true}"></ngx-katex> -->
-
-
-          <div [innerHTML]="moduleInfo?.moduleContent" class=" flex flex-col gap-y-5"> 
+          <div #moduleContentDiv class=" flex flex-col gap-y-8"> 
               
           </div>
-
 
           <button *ngIf="highlight"
             [ngStyle]="{'top.px': highlightButtonTop, 'left.px': highlightButtonLeft}" 
@@ -115,6 +115,18 @@
                 </div>  
               </div>              
             }
+
+
+            <div class="my-8 flex flex-row gap-x-5">
+              <button 
+              (click)="this.router.navigate(['course', this.moduleInfo.course.courseId, this.moduleInfo.course.courseName])"  
+              class="mx-auto  font-bold text-lg w-5/12  align-middle justify-center outline  text-center p-3 outline-white text-white rounded-md hover:bg-gradient-to-l hover:from-accent2 hover:to-accent hover:text-black hover:outline-black  focus:outline-none focus:ring-2 focus:ring-accent neon-glow"> Please Give us feedback </button>
+              
+              <button 
+              (click)="this.router.navigate(['course', this.moduleId, this.moduleInfo.next])"  
+              class="mx-auto text-black font-bold text-lg w-5/12 align-middle justify-center outline outline-accent text-center p-3 bg-gradient-to-br from-accent2 to-accent rounded-md hover:bg-gradient-to-r hover:from-accent2 hover:to-accent focus:outline-none focus:ring-2 focus:ring-accent neon-glow"> Next module! </button>
+            </div>
+
           </div>
         </div>
       </div>
@@ -447,7 +459,7 @@
                 @if (this.userModuleInfo.completed) {
                   <button 
                   (click)="this.router.navigate(['course', this.moduleInfo.course.courseId, this.moduleInfo.course.courseName])"  
-                  class="mx-auto text-white font-bold text-lg w-5/6 my-5 align-middle justify-center outline outline-accent text-center p-3 bg-gradient-to-br  from-accent2 to-accent rounded-md hover:bg-gradient-to-r hover:from-accent2 hover:to-accent focus:outline-none focus:ring-2 focus:ring-accent neon-glow"> Next module! </button>
+                  class="mx-auto text-black font-bold text-lg w-5/6 my-5 align-middle justify-center outline outline-accent text-center p-3 bg-gradient-to-br from-accent2 to-accent rounded-md hover:bg-gradient-to-r hover:from-accent2 hover:to-accent focus:outline-none focus:ring-2 focus:ring-accent neon-glow"> Next module! </button>
                 }
               } @else {
                 <div class="grid grid-cols-10 w-full h-full overflow-y-scroll no-scrollbar">

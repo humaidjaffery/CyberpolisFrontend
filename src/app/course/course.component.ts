@@ -16,8 +16,7 @@ export class CourseComponent implements OnInit {
   modules: any[];
   modulesStarted = 0;
   modulesFinished = 0;
-  showStory = false
-  storyIndex = 0;
+  storyIndex = -1;
 
   constructor (private route: ActivatedRoute, private moduleService: ModuleService, private router: Router) {}
   
@@ -26,8 +25,9 @@ export class CourseComponent implements OnInit {
       next: this.getCourseId.bind(this)
     })
 
+    //temporary
     if(this.courseId != "ac5e"){
-      this.showStory = false
+      this.storyIndex = -1
       return
     }
     this.moduleService.getAllFromCourse(this.courseId).subscribe(
@@ -68,7 +68,7 @@ export class CourseComponent implements OnInit {
     }
 
     if(modulesStarted == 0){
-      this.showStory = true
+      this.storyIndex = 0
     }
 
     let i=0;
@@ -76,6 +76,7 @@ export class CourseComponent implements OnInit {
       this.modules[i+1] = courseMap.get(this.modules[i].next)
       i++ 
     }
+
   }
 
   //Right now just hardcoding the values bc of lack of time but this will all obviously be fetched from the db
@@ -87,20 +88,22 @@ export class CourseComponent implements OnInit {
     "And although they ultimately couldn't prevent it no matter how hard they tried",
     "they left you with lucid, a protective AI with loyalty, morality, and a deep love for humankind. Because of Lucid, you were able to escape to safety away from the hands of the dominion",
     "Now, with the help of lucid, you are the only one that can save the world by embarking on a global quest to reclaim the hidden algorithms, the keys to dismantling The Dominion.",
-    "Starting in the lushes rainforest of Brazil..."
+    "Starting in the luscious rainforest of Sau Paulo Brazil, where you seek the hidden scroll of Linear Regression..."
   ]
 
   nextStoryPage(){
     if(this.storyIndex == this.storyLines.length - 1){
       console.log("end")
-      this.showStory = false
+      this.storyIndex = -1
     } else {
       this.storyIndex++
     }
   }
 
   previousStoryPage(){
-      this.storyIndex--;
+    if(this.storyIndex > 0){
+      this.storyIndex--
+    }
   }
 
   goToModule(moduleId: string){

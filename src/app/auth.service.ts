@@ -1,9 +1,8 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { environment } from '../environments/environment';
 import { Observable, map, catchError } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
-
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),

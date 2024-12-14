@@ -1,32 +1,33 @@
 
-
-@if (this.showStory) {
-    <div
-        class="fixed inset-0 bg-cover bg-center bg-fixed z-0"
-        style="
-          background-image: url('{{mediaCdnUrl}}{{this.courseId}}/story/{{storyIndex}}.jpg');
-          background-attachment: fixed;
-        "
-      >
-        <div class="absolute inset-0 bg-black opacity-70 z-0"></div>
-
-    </div>
-
-    <div class="fixed my-10 z-10 flex flex-col align-middle justify-center text-center w-full h-full p-20">
-        <h1 class=" text-5xl font-semibold "> {{storyLines[storyIndex]}}  </h1>
-        <div class="flex flex-col gap-y-4 my-5">
-            <div class="flex justify-center align-middle mx-auto gap-x-6">
-                @if (this.storyIndex > 0) {
-                    <button (click)="previousStoryPage()" class=" hover:text-accent2 hover:scale-105 transition-all duration-200"> < Previous </button>
-                }
-                <button (click)="nextStoryPage()" class="my-auto text-lg hover:text-accent hover:scale-105 transition-all duration-200"> Next > </button>
-            </div>
-            <button (click)="this.showStory = false" class="text-xs my-auto hover:text-accent3 hover:scale-105 transition-all duration-200"> Skip </button>
+@for (frame of storyLines; track frame; let i = $index) {
+    @if (this.storyIndex == i) {
+        <div
+            class="fixed inset-0 bg-cover bg-center bg-fixed z-0"
+            style="
+              background-image: url('{{mediaCdnUrl}}{{this.courseId}}/story/{{storyIndex}}.jpg');
+              background-attachment: fixed;
+            "
+          >
+            <div class="absolute inset-0 bg-black opacity-50 z-0"></div>
+    
         </div>
-    </div>
+        <div class="fixed my-10 z-10 flex flex-col align-middle justify-center text-center w-full h-full p-20">
+            <h1 class=" text-5xl font-semibold "> {{storyLines[storyIndex]}}  </h1>
+            <div class="flex flex-col gap-y-4 my-5">
+                <div class="flex justify-center align-middle mx-auto gap-x-6">
+                    @if (this.storyIndex > 0) {
+                        <button (click)="previousStoryPage()" class=" hover:text-accent2 hover:scale-105 transition-all duration-200"> < Previous </button>
+                    }
+                    <button (click)="nextStoryPage()" class="my-auto text-lg hover:text-accent hover:scale-105 transition-all duration-200"> Next > </button>
+                </div>
+                <button (click)="this.storyIndex = -1" class="text-xs my-auto hover:text-accent3 hover:scale-105 transition-all duration-200"> Skip </button>
+            </div>
+        </div>
+    }
 }
 
-@if (this.showStory == false) {
+
+@if (this.storyIndex == -1) {
     <div
         class="fixed inset-0 bg-cover bg-center bg-fixed -z-20"
         style="

@@ -19,7 +19,7 @@ export class HeroComponent implements OnInit {
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
   isLoggedIn: boolean;
-  modelURL = 'assets/scene.gltf' 
+  username;
 
   text = "Creating New Anonymous User just for you..."
 

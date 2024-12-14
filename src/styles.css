@@ -3,6 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 @import "../node_modules/font-awesome/css/font-awesome.scss";
+@import '../node_modules/katex/dist/katex.min.css'; 
+
 
 
 /* Hide scrollbar for Chrome, Safari, and Opera */

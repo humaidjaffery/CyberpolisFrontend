@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ComponentFactoryResolver, ElementRef, HostListener, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 
 import 'ace-builds/src-noconflict/ace';
@@ -10,6 +10,8 @@ import { UserModuleService } from '../user-module.service';
 import { ChatService } from '../chat.service';
 import katex, {KatexOptions} from 'katex';
 import { environment } from 'src/environments/environment';
+import { NgxKatexComponent } from 'ngx-katex';
+import { contain } from 'three/src/extras/TextureUtils.js';
 
 
 
@@ -60,9 +62,10 @@ export class ModuleComponent implements OnInit, AfterViewInit {
      public router: Router, private route: ActivatedRoute,
     private userModuleService: UserModuleService,
     private chatService: ChatService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private elementRef: ElementRef
   ) {}
-
+  
   ngOnInit() {
     this.codeSaved = true
     //getting route info
@@ -84,19 +87,47 @@ export class ModuleComponent implements OnInit, AfterViewInit {
 
   }
 
-
   getModuleId(routeInfo: any){
     this.moduleId = routeInfo['module_id'];
   }
 
+
+  @ViewChild('moduleContentDiv', { static: true }) moduleContentDiv!: ElementRef<HTMLDivElement>;
+
   handleModuleInfo(data: any){
     this.moduleInfo = data;
+
+    this.moduleContentDiv.nativeElement.innerHTML = this.moduleInfo.moduleContent
     
+    const specialDivs = this.elementRef.nativeElement.querySelectorAll('[data-katex]');
+    console.log(specialDivs)
+    specialDivs.forEach((div: HTMLElement) => {
+      const formula = div.getAttribute('data-katex');
+      const displayMode = div.getAttribute('displayMode') == 'true'
+      div.innerHTML = katex.renderToString(formula, {displayMode: displayMode})
+    });
+    
+    // const parser = new DOMParser();
+    // const doc = parser.parseFromString(this.moduleInfo.moduleContent, 'text/html');
+    //moduleContent katex Render
+    // const equations = doc.querySelectorAll('[data-katex]');
+    // console.log(equations) 
+    // for(let i=0; i<equations.length; i++){
+    //   var html = katex.renderToString(equations[i].getAttribute('data-katex'), {
+    //     displayMode: true,
+    //     throwOnError: false,
+    //   });
+    //   equations[i].innerHTML = html
+    // }
+    // console.log(doc.documentElement.childNodes[0])
+    // this.moduleInfo.moduleContent = doc.documentElement.innerHTML
+
+
+
     //Initial Code
     for(var i=0; i<this.moduleInfo.initialModuleCode.length; i++ ){
       this.code += this.moduleInfo.initialModuleCode[i] + "\n"
     }
-    
 
     //Questions
     for(var i=0; i<this.moduleInfo.questions.length; i++){
@@ -503,9 +534,4 @@ export class ModuleComponent implements OnInit, AfterViewInit {
     this.selectedRight = -1
     this.selectedLeft = -1
   }
-
-  renderToString(equation: string){
-    return katex.renderToString(equation, { errorColor: "#FF0000", output: 'html', })
-  }
-  
 }
