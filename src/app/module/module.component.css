@@ -37,3 +37,7 @@
 scrollbar-width: none;  /* Firefox */
 }
   
+
+.responsive-font-size {
+  font-size: 2vw;
+}

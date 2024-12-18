@@ -100,29 +100,12 @@ export class ModuleComponent implements OnInit, AfterViewInit {
     this.moduleContentDiv.nativeElement.innerHTML = this.moduleInfo.moduleContent
     
     const specialDivs = this.elementRef.nativeElement.querySelectorAll('[data-katex]');
-    console.log(specialDivs)
     specialDivs.forEach((div: HTMLElement) => {
       const formula = div.getAttribute('data-katex');
-      const displayMode = div.getAttribute('displayMode') == 'true'
+      const displayMode = div.getAttribute('data-display') == 'true'
       div.innerHTML = katex.renderToString(formula, {displayMode: displayMode})
+      console.log(displayMode)
     });
-    
-    // const parser = new DOMParser();
-    // const doc = parser.parseFromString(this.moduleInfo.moduleContent, 'text/html');
-    //moduleContent katex Render
-    // const equations = doc.querySelectorAll('[data-katex]');
-    // console.log(equations) 
-    // for(let i=0; i<equations.length; i++){
-    //   var html = katex.renderToString(equations[i].getAttribute('data-katex'), {
-    //     displayMode: true,
-    //     throwOnError: false,
-    //   });
-    //   equations[i].innerHTML = html
-    // }
-    // console.log(doc.documentElement.childNodes[0])
-    // this.moduleInfo.moduleContent = doc.documentElement.innerHTML
-
-
 
     //Initial Code
     for(var i=0; i<this.moduleInfo.initialModuleCode.length; i++ ){
