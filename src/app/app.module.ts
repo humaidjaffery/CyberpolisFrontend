@@ -20,7 +20,8 @@ import { AceEditorModule } from 'ngx-ace-editor-wrapper';
 import { JwtInterceptor } from './jwt.interceptor';
 import { LinearRegressionCostComponent } from './interactive/linear-regression/linear-regression-cost/linear-regression-cost.component';
 import { StoryComponent } from './story/story.component';
-import { NgxKatexComponent } from 'ngx-katex'
+import { NgxKatexComponent } from 'ngx-katex';
+import { LabComponent } from './lab/lab.component'
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { NgxKatexComponent } from 'ngx-katex'
     ModuleComponent,
     LinearRegressionCostComponent,
     StoryComponent,
+    LabComponent,
   ],
   imports: [
     BrowserModule,

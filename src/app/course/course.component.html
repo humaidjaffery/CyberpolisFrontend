@@ -63,7 +63,7 @@
     
         <div class="w-full h-full flex flex-col justify-center align-middle gap-y-5 my-5">
             @for(module of modules; track module; let i = $index){
-                <div class="p-5  w-5/6 outline rounded-md flex mx-auto" [id]="i">
+                <div class="p-5 w-1/4 outline rounded-md flex mx-auto" [id]="i">
                     <h1 class="basis-4/5 text-white text-2xl">{{module.moduleName}}</h1>
                     @if (module.hasCompleted) {
                         <button class="basis-1/5 float-right p-5 outline rounded-md" (click)="goToModule(module.moduleId)"> View Again </button>

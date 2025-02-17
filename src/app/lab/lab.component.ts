@@ -1,27 +1,18 @@
-import { AfterViewInit, Component, ComponentFactoryResolver, ElementRef, HostListener, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
-
-import 'ace-builds/src-noconflict/ace';
-import 'ace-builds/src-noconflict/mode-python';
-import 'ace-builds/src-noconflict/theme-monokai';
+import { Component, ElementRef, HostListener, Renderer2, ViewChild } from '@angular/core';
+import katex from 'katex';
 import { ModuleService } from '../module.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserModuleService } from '../user-module.service';
 import { ChatService } from '../chat.service';
-import katex, {KatexOptions} from 'katex';
 import { environment } from 'src/environments/environment';
-import { NgxKatexComponent } from 'ngx-katex';
-import { contain } from 'three/src/extras/TextureUtils.js';
-
-
-
 
 @Component({
-  selector: 'app-module',
-  templateUrl: './module.component.html',
-  styleUrl: './module.component.css',
+  selector: 'app-lab',
+  templateUrl: './lab.component.html',
+  styleUrl: './lab.component.css'
 })
-export class ModuleComponent implements OnInit, AfterViewInit {
+export class LabComponent {
   mediaCdnUrl = environment.mediaCdnUrl
   isBrowser: any;
   messages: any[] = []
@@ -59,7 +50,8 @@ export class ModuleComponent implements OnInit, AfterViewInit {
 
   constructor(
     private moduleService: ModuleService,
-     public router: Router, private route: ActivatedRoute,
+    public router: Router, 
+    private route: ActivatedRoute,
     private userModuleService: UserModuleService,
     private chatService: ChatService,
     private renderer: Renderer2,
@@ -88,17 +80,17 @@ export class ModuleComponent implements OnInit, AfterViewInit {
   }
 
   getModuleId(routeInfo: any){
-    this.moduleId = routeInfo['module_id'];
+    this.moduleId = routeInfo['lab_id'];
   }
 
 
   @ViewChild('moduleContentDiv', { static: true }) moduleContentDiv!: ElementRef<HTMLDivElement>;
 
   handleModuleInfo(data: any){
-
-
     this.moduleInfo = data;
+
     this.moduleContentDiv.nativeElement.innerHTML = this.moduleInfo.moduleContent
+    
     const specialDivs = this.elementRef.nativeElement.querySelectorAll('[data-katex]');
     specialDivs.forEach((div: HTMLElement) => {
       const formula = div.getAttribute('data-katex');
@@ -200,7 +192,6 @@ export class ModuleComponent implements OnInit, AfterViewInit {
   }
   
   onCodeChanged(event: any) {
-    // console.log(this.code.split("\n")[0]);
     this.codeSaved = false  
   }
 
@@ -269,9 +260,10 @@ export class ModuleComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
+    // Check if 'Ctrl' and 'S' are pressed simultaneously
     if (event.ctrlKey && event.key === 's') {
-      event.preventDefault(); 
-      this.saveCode(); 
+      event.preventDefault(); // Prevent the browser's default save dialog
+      this.saveCode(); // Call your save function
     }
   }
 
@@ -302,7 +294,7 @@ export class ModuleComponent implements OnInit, AfterViewInit {
       moveItemInArray(this.blockBank, event.previousIndex, event.currentIndex);
   }
 
-  selectedTab = 'interactive';
+  selectedTab = 'code';
 
   selectTab(tab: string) {
     this.selectedTab = tab;

@@ -16,7 +16,7 @@ export class LinearRegressionCostComponent implements OnInit {
 
   private svg: any;
   private margin = {top: 20, right: 30, bottom: 30, left: 40};
-  private width = 500 - this.margin.left - this.margin.right;
+  private width = 500;
   private height = 300 - this.margin.top - this.margin.bottom;
   private xScale: any;
   private yScale: any;
