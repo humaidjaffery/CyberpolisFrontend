@@ -95,8 +95,6 @@ export class ModuleComponent implements OnInit, AfterViewInit {
   @ViewChild('moduleContentDiv', { static: true }) moduleContentDiv!: ElementRef<HTMLDivElement>;
 
   handleModuleInfo(data: any){
-
-
     this.moduleInfo = data;
     this.moduleContentDiv.nativeElement.innerHTML = this.moduleInfo.moduleContent
     const specialDivs = this.elementRef.nativeElement.querySelectorAll('[data-katex]');

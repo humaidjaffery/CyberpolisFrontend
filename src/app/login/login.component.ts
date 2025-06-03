@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -9,12 +10,14 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
   errors: string[] = [];
+  mediaCdnUrl = environment.mediaCdnUrl;
 
   constructor(private route: ActivatedRoute, private authService: AuthService, public router: Router) { }
 
   ngOnInit(): void {
+    // this.mediaCdnUrl = environment.mediaCdnUrl;
     if(this.authService.isLoggedIn()){
-      this.router.navigate(['home']);
+      // this.router.navigate(['home']);
       return;
     }
 

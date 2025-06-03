@@ -1,53 +1,44 @@
-<div class="w-screen h-full outline flex bg-img">
-    <div class="w-full overlay">
-        <div class="flex items-center justify-center h-full">
-            <div [hidden]="errors.length == 0" class="w-full flex justify-center">
-                @for (e of errors; track e) {
-                  <p class="text-center text-red-500">{{e}}</p>
-                }
-              </div>
-    
-            <form #form="ngForm" (ngSubmit)="onSubmit(form.value)" class=" bg-teal-600 mx-auto outline rounded-md p-8 m-4 text-center ">
-                <div class="flex flex-col justify-center space-y-10">
-                    <div>
-                        <h1 class="text-4xl">Signup</h1>
-                    </div>
-
-                    <div class="flex-row space-y-1 justify-center items-center mx-auto">
-                        <div class="card flex justify-content-center w-full p-6">
-                            <span class="p-float-label drop-shadow-2xl">
-                                <input class="p-4 w-96 text-xl text-black" pInputText id="email" name="email" ngModel />
-                                <label htmlFor="email" ><b>Email</b></label>
-                            </span>
-                        </div>  
-    
-                        <div class="card flex justify-content-center w-full p-6">
-                            <span class="p-float-label drop-shadow-2xl">
-                                <input class="p-4 w-96 text-xl text-black" pInputText id="username" name="username" ngModel  />
-                                <label htmlFor="usernmae"><b>Username</b></label>
-                            </span>
-                        </div> 
-    
-                        <div class="card flex justify-content-center w-full p-6">
-                            <span class="p-float-label drop-shadow-2xl">
-                                <input class="p-4 w-96 text-xl text-black" pInputText id="password" name="password" type="password" ngModel  />
-                                <label htmlFor="email"><b>Password</b></label>
-                            </span>
-                        </div> 
-                    </div>
-                    
-        
-                    <div class="m-3 w-full">
-                        <button type="submit" class="font-bold py-3 px-5 rounded outline">Signup</button>
-                        <p (click)="this.router.navigate(['login'])" class="mt-3"> Log in Instead </p>    
-                    </div>
+<div class="w-screen h-screen flex flex-row">
+    <div class="w-1/2 h-full ">
+        <form #form="ngForm" (ngSubmit)="onSubmit(form.value)" 
+            class=" bg-gray-800 p-8 text-center h-full w-full" >
+            <div class="w-full flex flex-col justify-center space-y-1">
+                <div>
+                    <h1 class="text-4xl font-bold">Signup</h1>
                 </div>
-    
-            </form>
-        </div>
+        
+                <div class="w-full flex flex-col justify-center items-center gap-y-1">
+                    <div class="flex flex-col justify-center items-center w-full p-6">
+                        <label htmlFor="email" class="md:text-md lg:text-lg xl:text-xl"><b>Email</b></label>
+                        <input class="text-xl text-black w-1/2 rounded-md p-2" pInputText id="email" name="email" ngModel />
+                    </div>  
+        
+                    <div class="flex flex-col justify-center items-center w-full p-6">
+                        <label htmlFor="username" class="md:text-md lg:text-lg xl:text-xl"><b>Username</b></label>
+                        <input class="text-xl text-black w-1/2 rounded-md p-2" pInputText id="username" name="username" ngModel  />
+                    </div> 
+        
+                    <div class="flex flex-col justify-center items-center w-full p-6">
+                        <label htmlFor="password" class="md:text-md lg:text-lg xl:text-xl"><b>Password</b></label>
+                        <input class="text-xl text-black w-1/2 rounded-md p-2" pInputText id="password" name="password" type="password" ngModel  />
+                    </div> 
+                </div>
+                
+        
+                <div class="w-full flex flex-col gap-3 justify-center items-center">
+                    <button type="submit" class="w-1/6 font-bold py-3 px-5 rounded outline hover:outline-accent">Signup</button>
+                    <p (click)="this.router.navigate(['auth/login'])" class=""> Log in Instead </p>    
+                </div>
+            </div>
+        
+        </form>
+    </div>
+
+    <div
+      class="w-2 h-full bg-gradient-to-b from-accent to-accent2 neon-glow"
+    ></div>
+
+    <div class="w-1/2 h-full bg-blue-50 " > 
+      <h1>Second Section</h1>
     </div>
 </div>
-
-
-
-

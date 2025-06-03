@@ -18,7 +18,7 @@ export class CourseComponent implements OnInit {
   modulesFinished = 0;
   storyIndex = -1;
 
-  constructor (private route: ActivatedRoute, private moduleService: ModuleService, private router: Router) {}
+  constructor (private route: ActivatedRoute, private moduleService: ModuleService, public router: Router) {}
   
   ngOnInit(): void {   
     this.route.params.subscribe({

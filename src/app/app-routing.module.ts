@@ -12,8 +12,8 @@ import { LabComponent } from './lab/lab.component';
 
 const routes: Routes = [
   {path: 'auth', children: [
-    // {path: 'login', component: LoginComponent},
-    // {path: 'signup', component: SignupComponent},
+    {path: 'login', component: LoginComponent},
+    {path: 'signup', component: SignupComponent},
   ]},
   {path: '', component: HeroComponent,  },
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},

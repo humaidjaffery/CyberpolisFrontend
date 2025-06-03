@@ -1,13 +1,27 @@
-<div class="w-screen h-full bg-img">
-  <div class="w-full h-full flex justify-center overlay">
-    <div class="w-1/2 h-full">
-      <div class="flex items-center justify-center h-full">
-        <form
+<div class="w-screen h-screen flex flex-row">
+  <div class="w-1/2 h-full ">
+    <div
+      class="absolute inset-0 bg-cover bg-center bg-fixed"
+      style="
+        background-image: url('{{mediaCdnUrl}}.jpg');
+        background-attachment: fixed;
+      "
+    >
+      <div class="absolute inset-0 bg-black opacity-85 z-10"></div>
+    </div>    
+  </div>
+
+    <div
+      class="w-2 h-full bg-gradient-to-b from-accent to-accent2 neon-glow z-20"
+    ></div>
+
+    <div class="w-1/2 h-full bg-blue-50 z-20  " > 
+      <form
           #form="ngForm"
           (ngSubmit)="onSubmit(form.value)"
-          class="bg-gradient-to-b from-teal-500 to-purple-500 neon-glow mx-auto outline rounded-md p-8 m-4 text-center text-black"
+          class="w-full h-full bg-gray-800  mx-auto p-8 text-center text-white"
         >
-          <div class="flex flex-col justify-center space-y-5">
+          <div class="flex flex-col justify-center space-y-1">
             <div>
               <h1 class="text-4xl font-bold">Login</h1>
             </div>
@@ -20,57 +34,37 @@
               </div>
             </div>
 
-            <div class="flex-row space-y-1 justify-center items-center mx-auto">
-              <div class="card flex justify-content-center w-full p-6">
-                <span class="p-float-label drop-shadow-2xl">
+            <div class="w-full flex flex-col justify-center space-y-1">
+              <div class="flex flex-col justify-center items-center w-full p-6">
+                <label htmlFor="email" class="md:text-md lg:text-lg xl:text-xl"><b>Email</b></label>
                   <input
-                    class="p-4 w-96 text-xl"
+                    class="text-xl text-black w-1/2 rounded-md p-2"
                     pInputText
                     id="email"
                     name="email"
                     ngModel
                   />
-                  <label htmlFor="email"><b>Email</b></label>
-                </span>
               </div>
 
-              <div class="card flex justify-content-center w-full p-6">
-                <span class="p-float-label drop-shadow-2xl">
+              <div class="flex flex-col justify-center items-center w-full p-6">
+                <label htmlFor="password" class="md:text-md lg:text-lg xl:text-xl"><b>Password</b></label>
                   <input
-                    class="p-4 w-96 text-xl"
+                    class="text-xl text-black w-1/2 rounded-md p-2"
                     pInputText
                     type="password"
                     id="password"
                     name="password"
                     ngModel
                   />
-                  <label htmlFor="email"><b>Password</b></label>
-                </span>
               </div>
             </div>
 
-            <div class="m-3 w-full">
-              <div class="flex justify-center">
-                <button
-                  type="submit"
-                  class="px-5 py-2 text-black text-xl rounded-lg "
-                >
-                  Login
-                </button>
-              </div>
-
-              <div>
-                <button
-                  type="button"
-                  (click)="this.router.navigate(['auth/signup'])"
-                >
-                  Sign up instead
-                </button>
-              </div>
+            <div class="w-full flex flex-col gap-3 justify-center items-center">
+              <button type="submit" class="w-1/6 font-bold py-3 px-5 rounded outline hover:outline-accent">Login</button>
+              <p (click)="this.router.navigate(['auth/signup'])" class=""> Sign up Instead </p>    
             </div>
+
           </div>
         </form>
-      </div>
     </div>
-  </div>
 </div>

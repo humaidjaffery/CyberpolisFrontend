@@ -18,18 +18,16 @@
   scrollbar-width: none;  /* Firefox */
 }
 
-/* body {
+body {
   font-family: "Agdasima", serif;
   font-weight: 100;
   font-style: normal;
-} */
+}
 
-
-
-body {
+/* body {
   font-family: "Roboto Condensed", sans-serif;
   font-optical-sizing: auto;
   font-weight: 200;
   font-style: normal;
-}
+} */
 
