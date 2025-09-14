@@ -61,6 +61,12 @@
 
             <div class="w-full flex flex-col gap-3 justify-center items-center">
               <button type="submit" class="w-1/6 font-bold py-3 px-5 rounded outline hover:outline-accent">Login</button>
+              
+              <!-- OAuth2 Login Options -->
+              <div class="w-full max-w-sm mx-auto mt-6">
+                <app-oauth2-login></app-oauth2-login>
+              </div>
+              
               <p (click)="this.router.navigate(['auth/signup'])" class=""> Sign up Instead </p>    
             </div>
 

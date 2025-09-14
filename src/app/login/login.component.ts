@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { OAuth2Service } from '../oauth2/oauth2.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -12,7 +13,12 @@ export class LoginComponent implements OnInit {
   errors: string[] = [];
   mediaCdnUrl = environment.mediaCdnUrl;
 
-  constructor(private route: ActivatedRoute, private authService: AuthService, public router: Router) { }
+  constructor(
+    private route: ActivatedRoute, 
+    private authService: AuthService, 
+    private oauth2Service: OAuth2Service,
+    public router: Router
+  ) { }
 
   ngOnInit(): void {
     // this.mediaCdnUrl = environment.mediaCdnUrl;

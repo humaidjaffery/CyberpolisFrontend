@@ -18,10 +18,13 @@ import { ModuleComponent } from './module/module.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AceEditorModule } from 'ngx-ace-editor-wrapper';
 import { JwtInterceptor } from './jwt.interceptor';
+import { OAuth2Interceptor } from './oauth2/oauth2.interceptor';
 import { LinearRegressionCostComponent } from './interactive/linear-regression/linear-regression-cost/linear-regression-cost.component';
 import { StoryComponent } from './story/story.component';
 import { NgxKatexComponent } from 'ngx-katex';
-import { LabComponent } from './lab/lab.component'
+import { LabComponent } from './lab/lab.component';
+import { OAuth2LoginComponent } from './oauth2/oauth2-login/oauth2-login.component';
+import { OAuth2CallbackComponent } from './oauth2/oauth2-callback/oauth2-callback.component';
 
 
 @NgModule({
@@ -36,6 +39,8 @@ import { LabComponent } from './lab/lab.component'
     LinearRegressionCostComponent,
     StoryComponent,
     LabComponent,
+    OAuth2LoginComponent,
+    OAuth2CallbackComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +53,7 @@ import { LabComponent } from './lab/lab.component'
   providers: [
     provideClientHydration(),
     provideHttpClient(
-      withInterceptors([JwtInterceptor])
+      withInterceptors([OAuth2Interceptor, JwtInterceptor])
     ),
   ],
   bootstrap: [AppComponent]

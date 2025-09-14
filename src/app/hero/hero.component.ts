@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
-import * as THREE from 'three'
 import { environment } from '../../environments/environment';
-
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-
 
 @Component({
   selector: 'app-hero',
@@ -14,51 +9,102 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
   styleUrl: './hero.component.css'
 })
 export class HeroComponent implements OnInit {
-  mediaCdnUrl = environment.mediaCdnUrl
-  private renderer!: THREE.WebGLRenderer;
-  private scene!: THREE.Scene;
-  private camera!: THREE.PerspectiveCamera;
-  isLoggedIn: boolean;
-  username;
+  mediaCdnUrl = environment.mediaCdnUrl;
+  isLoggedIn: boolean = false;
+  betaEmail: string = '';
+  betaSubmitted: boolean = false;
+  activeFeatureIndex: number = 0;
 
-  text = "Creating New Anonymous User just for you..."
+  features = [
+    {
+      title: 'Modular Learning',
+      description1: 'Bite-sized modules for rapid learning',
+      description2: 'Master concepts step by step'
+    },
+    {
+      title: 'Interactive Learning',
+      description1: 'Dynamic graphs and hands-on exercises',
+      description2: 'See algorithms in action'
+    },
+    {
+      title: 'Built-in IDE',
+      description1: 'Code, test, and debug in your browser',
+      description2: 'No setup required'
+    },
+    {
+      title: 'AI Tutor',
+      description1: 'Personal AI companion with memory',
+      description2: '24/7 hyper-personalized guidance'
+    },
+    {
+      title: 'Immersive Story',
+      description1: 'Learn while saving humanity',
+      description2: 'Dystopian future narrative experience'
+    }
+  ];
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.isLoggedIn = this.authService.isLoggedIn()
-    if(this.isLoggedIn){
-      this.text = "You are already logged in. Redirecting you to home..."
-    }
+    this.isLoggedIn = this.authService.isLoggedIn();
+  }
 
-    if(!this.isLoggedIn){
-      console.log("here")
+  scrollToFeatures(): void {
+    const featuresElement = document.getElementById('features');
+    if (featuresElement) {
+      featuresElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  scrollToBeta(): void {
+    const betaElement = document.getElementById('beta');
+    if (betaElement) {
+      betaElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  joinBeta(): void {
+    if (this.betaEmail && this.betaEmail.trim() !== '') {
+      // Here you would typically send the email to your backend
+      // For now, we'll just show a success message
+      this.betaSubmitted = true;
+      
+      // Reset form after a delay
       setTimeout(() => {
-        this.text = "Redirecting you now..."
-      }, 2500)
-  
-      setTimeout(() => {
-        this.authService.guestUser().subscribe({
-          next: this.redirectGuestUser.bind(this),
-          error: this.handleError.bind(this)
-        })
-      }, 4000)
+        this.betaSubmitted = false;
+        this.betaEmail = '';
+      }, 3000);
+      
+      console.log('Beta signup:', this.betaEmail);
+    }
+  }
+
+  // Navigation methods
+  goToLogin(): void {
+    this.router.navigate(['auth/login']);
+  }
+
+  goToSignup(): void {
+    this.router.navigate(['auth/signup']);
+  }
+
+  goToHome(): void {
+    if (this.isLoggedIn) {
+      this.router.navigate(['home']);
     } else {
-      setTimeout(() => {
-        this.router.navigate(['home'])
-      }, 2500)
+      this.router.navigate(['auth/login']);
     }
-    
   }
 
-  redirectGuestUser(data){
-    this.router.navigate(['home'])
+  setActiveFeature(index: number): void {
+    this.activeFeatureIndex = index;
   }
 
-  handleError(error){
-    console.log(error)
+  getCurrentFeature(): any {
+    return this.features[this.activeFeatureIndex];
   }
 
-  
-
+  isActiveFeature(index: number): boolean {
+    return this.activeFeatureIndex === index;
+  }
 } 

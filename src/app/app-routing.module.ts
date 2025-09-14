@@ -9,13 +9,15 @@ import { CourseComponent } from './course/course.component';
 import { ModuleComponent } from './module/module.component';
 import { StoryComponent } from './story/story.component';
 import { LabComponent } from './lab/lab.component';
+import { OAuth2CallbackComponent } from './oauth2/oauth2-callback/oauth2-callback.component';
 
 const routes: Routes = [
   {path: 'auth', children: [
     {path: 'login', component: LoginComponent},
     {path: 'signup', component: SignupComponent},
   ]},
-  {path: '', component: HeroComponent,  },
+  {path: 'oauth/callback', component: OAuth2CallbackComponent},
+  {path: '', component: HeroComponent},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
   {path: 'course/:course_id/:course_name', component: CourseComponent, canActivate: [AuthGuard]},
   {path: 'module/:module_id', component: ModuleComponent, canActivate: [AuthGuard]},
