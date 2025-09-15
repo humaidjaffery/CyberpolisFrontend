@@ -1,4 +1,4 @@
-<div class="min-h-screen w-screen overflow-x-hidden bg-black">
+<div class="min-h-screen w-screen overflow-x-hidden bg-black overflow-y-hidden no-scrollbar">
 
   <!-- Background Image -->
   <div
@@ -12,7 +12,7 @@
   </div>
 
   <!-- Header Section -->
-  <div class="relative z-20 flex justify-between items-center px-8 py-6 bg-gradient-to-b from-black to-transparent backdrop-blur-sm">
+  <div class="absolute top-0 left-0 right-0 z-20 flex justify-between items-center px-8 py-6 bg-gradient-to-b from-black to-transparent backdrop-blur-sm">
     <!-- Logo -->
     <div class="flex items-center gap-4">
       <img class="w-12 h-12 rounded-lg" src="assets/logo.png" alt="CyberpolisAI Logo">
@@ -29,37 +29,37 @@
   </div>
 
   <!-- Main Hero Section -->
-  <div class="pt-10 relative z-10 flex flex-col items-center justify-center px-8 pb-0">
+  <div class="min-h-screen relative z-10 flex flex-col items-center justify-center px-8">
     <!-- Main Content Container -->
     <div class="w-full max-w-4xl mx-auto text-center">
   
       <!-- Main Headline -->
-      <h1 class="lg:text-7  xl md:text-6xl font-bold text-white mb-8 leading-tight">
-        The Only Platform YOU Need <br> to <span class="text-accent2 px-2" style="text-shadow: 0 0 20px #B534FF, 0 0 40px #B534FF, 0 0 60px #B534FF;">Master</span> <span class="text-accent px-2" style="text-shadow: 0 0 20px #4EFFEF, 0 0 40px #4EFFEF, 0 0 60px #4EFFEF;">Machine Learning</span>
+      <h1 class="lg:text-8xl md:text-6xl text-4xl font-bold text-white mb-8 leading-tight">
+        The Only Platform YOU Need <br> to <span class="text-accent2 px-2" style="text-shadow: 0 0 4px #B534FF, 0 0 8px #B534FF, 0 0 12px #B534FF;">Master</span> <span class="text-accent px-2" style="text-shadow: 0 0 4px #4EFFEF, 0 0 8px #4EFFEF, 0 0 12px #4EFFEF;">Machine Learning</span>
       </h1>
       
       <!-- Bullet Points -->
-      <div class="text-left max-w-md mx-auto mb-12">
-        <div class="flex items-start gap-3">
+      <div class="text-center max-w-md mx-auto mb-12">
+        <div class="flex items-start gap-3 justify-center">
           <div class="w-2 h-2 bg-gradient-to-r from-accent to-accent2 rounded-lg mt-2 flex-shrink-0"></div>
           <p class="text-lg text-gray-300">Lorem ipsum doLorem ipsum doLorem ipsum doLorem ipsum doLorem </p>
         </div>
-        <div class="flex items-start gap-3">
+        <div class="flex items-start gap-3 justify-center">
           <div class="w-2 h-2 bg-gradient-to-r from-accent to-accent2 rounded-lg mt-2 flex-shrink-0"></div>
           <p class="text-lg text-gray-300">Lorem ipsum doLorem ipsum doLorem ipsum doLorem ipsum doLorem </p>
         </div>
-        <div class="flex items-start gap-3">
+        <div class="flex items-start gap-3 justify-center">
           <div class="w-2 h-2 bg-gradient-to-r from-accent to-accent2 rounded-lg mt-2 flex-shrink-0"></div>
           <p class="text-lg text-gray-300">Lorem ipsum doLorem ipsum doLorem ipsum doLorem ipsum doLorem </p>
         </div>
       </div>
       
       <!-- Email Input and Button -->
-      <div class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto mb-0">
+      <div class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
         <input 
           type="email" 
           placeholder="Enter your email"
-          class="flex-1 px-6 py-4 bg-gray-800/80 border-2 border-transparent rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-accent/50 backdrop-blur-sm relative"
+          class="text-2xl flex-1 px-6 py-4 bg-gray-800/80 border-2 border-transparent rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-accent/50 backdrop-blur-sm relative"
           style="background: linear-gradient(black, black) padding-box, linear-gradient(135deg, #4EFFEF, #B534FF) border-box;"
         >
         <button 
@@ -72,114 +72,114 @@
     </div>
   </div>
 
+  <!-- Scroll Down Arrow -->
+  <div *ngIf="showScrollArrow" class="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-30 transition-opacity duration-300">
+    <div class="animate-bounce">
+      <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+      </svg>
+    </div>
+  </div>
+
+  <!-- <div class="h-screen bg-fblack"></div> -->
+
   <!-- Feature Showcase Section -->
-  <div class="py-20">
-    <div class="max-w-7xl mx-auto px-8">
-      <div class="w-4/5 mx-auto mb-16 h-[60vh] bg-gray-800/30 backdrop-blur-sm rounded-3xl border-2 border-gray-700 overflow-hidden"
-           style="border-image: linear-gradient(135deg, #06b6d4, #8b5cf6) 1;">
-        <div class="flex h-full">
-          <!-- Left Side - Image Placeholder -->
-          <div class="w-2/3 bg-gradient-to-br from-gray-700/50 to-gray-800/50 flex items-center justify-center relative overflow-hidden">
+  <div class="min-h-screen bg-fblack flex flex-col items-center justify-center py-20">
+    <!-- Section Title -->
+    <div class="w-full text-center mb-10 px-4 md:px-8">
+        <h2 class="text-5xl md:text-6xl lg:text-7xl font-bold text-white">
+          What Makes <span class="text-accent px-2" style="text-shadow: 0 0 10px #4EFFEF, 0 0 20px #4EFFEF;">CyberpolisAI</span> So <span class="text-accent2 px-2" style="text-shadow: 0 0 10px #B534FF, 0 0 20px #B534FF;">Special</span>?
+        </h2>
+    </div>
+    <div class="w-full max-w-none px-4 md:px-8">
+      <!-- Global Navigation Tabs (80% width), below section title -->
+      <div class="w-4/5 mx-auto mb-10">
+        <div class="flex gap-2 w-full">
+          <div
+            *ngFor="let feature of features; let i = index"
+            class="tab-pill flex-1 h-4 md:h-4 lg:h-5 rounded-sm cursor-pointer transition-all duration-300"
+            [class.active-tab]="isActiveFeature(i)"
+            [class.fade-out]="isActiveFeature(i) && isAnimationsEnabled()"
+            [class.bg-gray-600]="!isActiveFeature(i)"
+            [class.next-tab]="isNextFeature(i) && !isActiveFeature(i) && isAnimationsEnabled()"
+            [class.gradient-forward]="isForwardGradient(i)"
+            [class.gradient-reverse]="!isForwardGradient(i)"
+            (click)="setActiveFeature(i)">
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col lg:flex-row h-[60vh] gap-4 lg:gap-8">
+        <!-- Left Side - Image (70% of screen on large, full width on small) -->
+        <div class="w-full lg:w-[70%] flex justify-center items-center">
+          <div class="outline outline-accent outline-offset-0 w-full lg:w-4/5 h-full bg-gradient-to-br from-gray-700/50 to-gray-800/50 flex items-center justify-center relative overflow-hidden rounded-3xl border-2 border-gray-700">
             <div class="absolute inset-0 bg-gradient-to-br from-accent/20 to-accent2/20"></div>
             <div class="relative z-10 text-center">
-              <div class="text-4xl font-bold text-gray-400">Image</div>
+              <div class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-400">Image</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side - Feature Content (30% of screen on large, full width on small) -->
+        <div class="w-full lg:w-[30%] flex flex-col items-center h-full py-4 lg:py-8">
+
+          <!-- Feature Content -->
+          <div class="flex flex-col justify-center items-center flex-1 text-center px-4">
+            <!-- Feature Title -->
+            <h3 class="text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 lg:mb-8">{{ getCurrentFeature().title }}</h3>
+            
+            <!-- Feature Description -->
+            <div class="space-y-2 lg:space-y-3">
+              <p class="text-sm md:text-base lg:text-lg xl:text-xl text-gray-300">- {{ getCurrentFeature().description1 }}</p>
+              <p class="text-sm md:text-base lg:text-lg xl:text-xl text-gray-300">- {{ getCurrentFeature().description2 }}</p>
             </div>
           </div>
 
-          <!-- Right Side - Feature Content -->
-          <div class="w-1/3 p-8 flex flex-col justify-center">
-            <!-- Tab System -->
-            <div class="flex gap-2 mb-6">
-              <div 
-                *ngFor="let feature of features; let i = index"
-                class="w-4 h-4 rounded-sm cursor-pointer transition-all duration-300"
-                [class.bg-accent]="isActiveFeature(i)"
-                [class.bg-gray-600]="!isActiveFeature(i)"
-                (click)="setActiveFeature(i)">
-              </div>
-            </div>
-
-            <!-- Feature Content -->
-            <div class="space-y-6">
-              <!-- Feature Title -->
-              <h3 class="text-2xl font-bold text-white">{{ getCurrentFeature().title }}</h3>
-              
-              <!-- Feature Description -->
-              <div class="space-y-2">
-                <p class="text-gray-300">- {{ getCurrentFeature().description1 }}</p>
-                <p class="text-gray-300">{{ getCurrentFeature().description2 }}</p>
-              </div>
-
-              <!-- Gain Early Access Button -->
-              <button 
-                class="w-full px-6 py-3 bg-transparent border-2 rounded-lg text-white font-bold hover:scale-105 transition-all duration-300 relative overflow-hidden"
-                style="background: linear-gradient(135deg, #4EFFEF, #B534FF); border: 2px solid transparent;"
-              >
-                <span class="relative z-10 text-lg text-black">Gain Early Access</span>
-              </button>
-            </div>
-          </div>
+          <!-- Gain Early Access Button -->
+          <button 
+            class="px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 bg-transparent border-2 rounded-lg text-white font-bold hover:scale-105 transition-all duration-300 relative overflow-hidden mt-auto"
+            style="background: linear-gradient(135deg, #4EFFEF, #B534FF); border: 2px solid transparent;"
+          >
+            <span class="relative z-10 text-sm md:text-base lg:text-lg text-black">Gain Early Access</span>
+          </button>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Beta Signup Section -->
-  <div id="beta" class="py-20 bg-gradient-to-b from-black to-fblack">
-    <div class="max-w-4xl mx-auto px-8 text-center">
-      <div class="bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-3xl p-12 border border-accent/30">
-        <h2 class="text-5xl font-bold text-white mb-6">
-          Join the <span class="text-accent">Revolution</span>
+  <div id="beta" class="py-24 bg-gradient-to-b from-fblack to-black">
+    <div class="w-3/4 mx-auto px-8 text-center">
+      <div class="w-3/4 mx-auto bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-3xl p-16 lg:p-20 border border-accent/30">
+        <h2 class="text-6xl lg:text-7xl font-bold text-white mb-8">
+          Become a <span class="text-accent">Beta User</span>
         </h2>
-        <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+        <p class="text-2xl text-gray-300 mb-10 max-w-3xl mx-auto">
           Be among the first to experience the future of machine learning education. 
           Get early access to all features and help shape the platform.
         </p>
         
-        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+        <div class="flex flex-col sm:flex-row gap-5 justify-center items-stretch mb-10">
           <input 
             type="email" 
             placeholder="Enter your email address"
             [(ngModel)]="betaEmail"
-            class="flex-1 px-6 py-4 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
+            class="flex-1 px-8 py-5 text-2xl bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
           >
           <button 
             (click)="joinBeta()"
-            class="px-8 py-4 bg-gradient-to-r from-accent to-accent2 text-black font-bold rounded-lg hover:from-accent/90 hover:to-accent2/90 transform hover:scale-105 transition-all duration-300">
+            class="px-10 py-5 text-2xl bg-gradient-to-r from-accent to-accent2 text-black font-bold rounded-lg hover:from-accent/90 hover:to-accent2/90 transform hover:scale-105 transition-all duration-300">
             Gain Early Acess
           </button>
         </div>
         
-        <div class="text-sm text-gray-400">
+        <div class="text-lg text-gray-400 space-y-1">
           <p>✓ Early access to all features</p>
           <p>✓ Exclusive content and updates</p>
           <p>✓ Direct feedback channel to our team</p>
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Footer -->
-  <footer class="py-12 border-t border-gray-800 bg-fblack">
-    <div class="max-w-6xl mx-auto px-8 text-center">
-      <div class="flex items-center justify-center gap-4 mb-6">
-        <div class="w-12 h-12 bg-gradient-to-r from-accent to-accent2 rounded-lg flex items-center justify-center">
-          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-          </svg>
-        </div>
-        <span class="text-2xl font-bold text-white">CyberpolisAI</span>
-      </div>
-      <p class="text-gray-400 mb-4">
-        The future of machine learning education is here. Are you ready to save humanity?
-      </p>
-      <div class="flex justify-center gap-6 text-sm text-gray-500">
-        <a href="#" class="hover:text-accent transition-colors">Privacy Policy</a>
-        <a href="#" class="hover:text-accent transition-colors">Terms of Service</a>
-        <a href="#" class="hover:text-accent transition-colors">Contact</a>
-      </div>
-    </div>
-  </footer>
+  </div> 
 </div>
 
 

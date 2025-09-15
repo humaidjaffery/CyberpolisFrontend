@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
@@ -8,12 +8,18 @@ import { environment } from '../../environments/environment';
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.css'
 })
-export class HeroComponent implements OnInit {
+export class HeroComponent implements OnInit, OnDestroy {
   mediaCdnUrl = environment.mediaCdnUrl;
   isLoggedIn: boolean = false;
   betaEmail: string = '';
   betaSubmitted: boolean = false;
   activeFeatureIndex: number = 0;
+  showScrollArrow: boolean = true;
+  private featureInterval: any;
+  private animationsPausedUntilMs: number = 0;
+
+  // Decorative neon dots in the feature section background
+  neonDots: Array<{ x: number; y: number; size: number; color: 'accent' | 'accent2'; durationMs: number; delayMs: number }>= [];
 
   features = [
     {
@@ -47,6 +53,17 @@ export class HeroComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
+    this.setupScrollListener();
+    this.startFeatureCycling();
+    this.generateNeonDots(28);
+  }
+
+  setupScrollListener(): void {
+    window.addEventListener('scroll', () => {
+      const scrollPosition = window.pageYOffset;
+      // Hide arrow after scrolling down 100px
+      this.showScrollArrow = scrollPosition < 100;
+    });
   }
 
   scrollToFeatures(): void {
@@ -98,6 +115,29 @@ export class HeroComponent implements OnInit {
 
   setActiveFeature(index: number): void {
     this.activeFeatureIndex = index;
+    // Reset the auto-cycling when user manually selects a feature
+    this.resetFeatureCycling();
+    // Pause animations for 10 seconds after manual selection
+    this.animationsPausedUntilMs = Date.now() + 10000;
+  }
+
+  startFeatureCycling(): void {
+    this.featureInterval = setInterval(() => {
+      this.activeFeatureIndex = (this.activeFeatureIndex + 1) % this.features.length;
+    }, 5000); // Change every 5 seconds
+  }
+
+  resetFeatureCycling(): void {
+    if (this.featureInterval) {
+      clearInterval(this.featureInterval);
+      this.startFeatureCycling();
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.featureInterval) {
+      clearInterval(this.featureInterval);
+    }
   }
 
   getCurrentFeature(): any {
@@ -106,5 +146,35 @@ export class HeroComponent implements OnInit {
 
   isActiveFeature(index: number): boolean {
     return this.activeFeatureIndex === index;
+  }
+
+  isNextFeature(index: number): boolean {
+    const nextIndex = (this.activeFeatureIndex + 1) % this.features.length;
+    return index === nextIndex;
+  }
+
+  // Determines gradient direction based on index parity to alternate colors
+  isForwardGradient(index: number): boolean {
+    // If the next tab should start with the ending color of the current active tab,
+    // then alternate direction by parity so adjacent tabs swap start/end colors.
+    return index % 2 === 0;
+  }
+
+  isAnimationsEnabled(): boolean {
+    return Date.now() > this.animationsPausedUntilMs;
+  }
+
+  private generateNeonDots(count: number): void {
+    const dots: Array<{ x: number; y: number; size: number; color: 'accent' | 'accent2'; durationMs: number; delayMs: number }>= [];
+    for (let i = 0; i < count; i++) {
+      const x = Math.random() * 100; // percent across width
+      const y = Math.random() * 100; // percent down height
+      const size = 3 + Math.random() * 4; // 3px to 7px
+      const color = Math.random() < 0.5 ? 'accent' : 'accent2';
+      const durationMs = 2500 + Math.random() * 3000; // 2.5s - 5.5s
+      const delayMs = -Math.random() * 3000; // negative so they start at random phase
+      dots.push({ x, y, size, color, durationMs, delayMs });
+    }
+    this.neonDots = dots;
   }
 } 

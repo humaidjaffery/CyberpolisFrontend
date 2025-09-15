@@ -1,20 +1,77 @@
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+/* Neon dots background */
+.neon-dot {
+  position: absolute;
+  border-radius: 9999px;
+  filter: drop-shadow(0 0 6px rgba(78, 255, 239, 0.8)) drop-shadow(0 0 10px rgba(181, 52, 255, 0.8));
+  opacity: 0.85;
+  animation-name: neonTwinkle;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+.neon-dot.accent { background: #4EFFEF; }
+.neon-dot.accent2 { background: #B534FF; }
+
+@keyframes neonTwinkle {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.35); opacity: 1; }
+}
+/* Animated fill for the "next" navigation tab */
+.tab-pill {
+  position: relative;
+  overflow: hidden;
 }
 
-::-webkit-scrollbar-track {
-  background: #1f2937;
+.tab-pill.next-tab::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0%;
+  background: linear-gradient(135deg, rgba(78, 255, 239, 0.35), rgba(181, 52, 255, 0.35));
+  pointer-events: none;
+  animation: fillLeftToRight 5s linear infinite;
 }
 
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(45deg, #06b6d4, #8b5cf6);
-  border-radius: 4px;
+@keyframes fillLeftToRight {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(45deg, #0891b2, #7c3aed);
+/* Active tab uses the same neon gradient as the loading fill */
+.tab-pill.active-tab.gradient-forward { background: linear-gradient(135deg, #4EFFEF, #B534FF); }
+.tab-pill.active-tab.gradient-reverse { background: linear-gradient(135deg, #B534FF, #4EFFEF); }
+
+/* Alternate next-tab gradient direction based on tab index parity */
+.tab-pill.next-tab.gradient-forward::before {
+  background: linear-gradient(135deg, rgba(78, 255, 239, 0.35), rgba(181, 52, 255, 0.35));
 }
+.tab-pill.next-tab.gradient-reverse::before {
+  background: linear-gradient(135deg, rgba(181, 52, 255, 0.35), rgba(78, 255, 239, 0.35));
+}
+
+/* Active tab fade-out cover from left to right (to gray) */
+.tab-pill.active-tab.fade-out::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0%;
+  background: #4B5563; /* Tailwind gray-600 */
+  pointer-events: none;
+  animation: coverLeftToRight 5s linear infinite;
+}
+
+@keyframes coverLeftToRight {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
 
 /* Neon glow effects */
 .neon-glow {
