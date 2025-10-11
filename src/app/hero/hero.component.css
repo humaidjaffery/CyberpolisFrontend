@@ -1,4 +1,10 @@
 /* Neon dots background */
+body {
+  font-family: "Agdasima", serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
 .neon-dot {
   position: absolute;
   border-radius: 9999px;

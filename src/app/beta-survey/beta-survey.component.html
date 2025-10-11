@@ -1,0 +1,253 @@
+<div class="min-h-screen w-screen overflow-x-hidden bg-black no-scrollbar">
+
+<!-- Background Image -->
+  <div
+    class="fixed inset-0 bg-cover bg-center bg-fixed z-0"
+    style="
+      background-image: url('{{mediaCdnUrl}}herobg.jpg');
+      background-attachment: fixed;
+    "
+  >
+    <div class="absolute inset-0 bg-black opacity-95"></div>
+  </div>
+
+<div class="flex items-center justify-center min-h-screen z-10 relative">
+  <form class="w-full max-w-3xl bg-transparent p-4 sm:p-6 rounded-lg">
+    <!-- Email Input (Conditional) -->
+    <div *ngIf="this.useremail === '' || this.useremail === undefined" class="mb-4">
+      <label for="email" class="block text-sm font-medium text-gray-700">Email (required)</label>
+      <input 
+        id="email" 
+        type="email" 
+        [(ngModel)]="useremail" 
+        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" 
+        placeholder="Enter your email" 
+        required
+      />
+      <p class="text-sm text-red-500 mt-1" *ngIf="showEmailError">You must enter your email.</p>
+    </div>
+
+    <!-- Header Section -->
+    <h1 class="text-4xl md:text-6xl font-bold mb-4 text-center text-accent">Thank you for joining the future of ML education!!</h1>
+    <p class="text-lg sm:text-xl text-center text-accent2 mb-6">
+      We want to cater this platform towards what you want, so these questions are extremely vital for us.
+      It should only take 6-7 minutes, thank you so much, this means a lot for us!!
+    </p>
+
+    <!-- <hr class=" bg-gradient-to-r from-accent to-accent2 h-1 border-0 my-4"> -->
+
+    <!-- Experience Section -->
+    <h2 class="text-3xl md:text-4xl font-bold my-4 text-center text-accent">Experience</h2>
+    <p class="text-lg sm:text-xl text-center text-accent2 mb-4">
+      How much experience with Python do you have?
+    </p>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+      <button type="button" class="bg-transparent border border-accent text-accent px-2 sm:px-4 py-2 rounded hover:bg-accent hover:text-black" [ngClass]="{'bg-accent text-black outline outline-accent2 font-bold': pythonExperience === 'None',  'bg-transparent  text-accent': pythonExperience !== 'None', }" (click)="selectPythonExperience('None')">None</button>
+      <button type="button" class="bg-transparent border border-accent text-accent px-2 sm:px-4 py-2 rounded hover:bg-accent hover:text-black" [ngClass]="{'bg-accent text-black outline outline-accent2 font-bold': pythonExperience === 'Less than 1 year',  'bg-transparent  text-accent': pythonExperience !== 'Less than 1 year', }" (click)="selectPythonExperience('Less than 1 year')">Less than 1 year</button>
+      <button type="button" class="bg-transparent border border-accent text-accent px-2 sm:px-4 py-2 rounded hover:bg-accent hover:text-black" [ngClass]="{'bg-accent text-black outline outline-accent2 font-bold': pythonExperience === '1-3 years',  'bg-transparent  text-accent': pythonExperience !== '1-3 years', }" (click)="selectPythonExperience('1-3 years')">1-3 years</button>
+      <button type="button" class="bg-transparent border border-accent text-accent px-2 sm:px-4 py-2 rounded hover:bg-accent hover:text-black" [ngClass]="{'bg-accent text-black outline outline-accent2 font-bold': pythonExperience === '3+ years',  'bg-transparent  text-accent': pythonExperience !== '3+ years', }" (click)="selectPythonExperience('3+ years')">3+ years</button>
+    </div>
+
+    <p class="text-lg sm:text-xl text-center text-accent2 mb-4">
+      Which of these Python libraries have you used before?
+    </p>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+      <button type="button" class="bg-transparent border border-accent text-accent px-2 sm:px-4 py-2 rounded hover:bg-accent hover:text-black" 
+        [ngClass]="{'bg-accent text-black outline outline-accent2 font-bold ': pythonLibrariesExperience.includes('NumPy'), 'bg-transparent text-accent': !pythonLibrariesExperience.includes('NumPy')}" 
+        (click)="selectPythonLibrary('NumPy')">NumPy</button>
+      
+      <button type="button" class="bg-transparent border border-accent text-accent px-2 sm:px-4 py-2 rounded hover:bg-accent hover:text-black" 
+        [ngClass]="{'bg-accent text-black outline outline-accent2 font-bold ': pythonLibrariesExperience.includes('Pandas'), 'bg-transparent text-accent ': !pythonLibrariesExperience.includes('Pandas')}" 
+        (click)="selectPythonLibrary('Pandas')">Pandas</button>
+      
+      <button type="button" class="bg-transparent border border-accent text-accent px-2 sm:px-4 py-2 rounded hover:bg-accent hover:text-black" 
+        [ngClass]="{'bg-accent text-black outline outline-accent2 font-bold ': pythonLibrariesExperience.includes('Matplotlib'), 'bg-transparent text-accent ': !pythonLibrariesExperience.includes('Matplotlib')}" 
+        (click)="selectPythonLibrary('Matplotlib')">Matplotlib</button>
+      
+      <button type="button" class="bg-transparent border border-accent text-accent px-2 sm:px-4 py-2 rounded hover:bg-accent hover:text-black" 
+        [ngClass]="{'bg-accent text-black outline outline-accent2 font-bold ': pythonLibrariesExperience.includes('Scikit-learn'), 'bg-transparent text-accent ': !pythonLibrariesExperience.includes('Scikit-learn')}" 
+        (click)="selectPythonLibrary('Scikit-learn')">Scikit-learn</button>
+
+      <button type="button" class="bg-transparent border border-accent text-accent px-2 sm:px-4 py-2 rounded hover:bg-accent hover:text-black" 
+        [ngClass]="{'bg-accent text-black outline outline-accent2 font-bold ': pythonLibrariesExperience.includes('SciPy'), 'bg-transparent text-accent ': !pythonLibrariesExperience.includes('SciPy')}" 
+        (click)="selectPythonLibrary('SciPy')">SciPy</button>
+
+      <button type="button" class="bg-transparent border border-accent text-accent px-2 sm:px-4 py-2 rounded hover:bg-accent hover:text-black" 
+        [ngClass]="{'bg-accent text-black outline outline-accent2 font-bold ': pythonLibrariesExperience.includes('Seaborn'), 'bg-transparent text-accent ': !pythonLibrariesExperience.includes('Seaborn')}" 
+        (click)="selectPythonLibrary('Seaborn')">Seaborn</button>
+
+      <button type="button" class="bg-transparent border border-accent text-accent px-2 sm:px-4 py-2 rounded hover:bg-accent hover:text-black" 
+        [ngClass]="{'bg-accent text-black outline outline-accent2 font-bold ': pythonLibrariesExperience.includes('Plotly'), 'bg-transparent text-accent ': !pythonLibrariesExperience.includes('Plotly')}" 
+        (click)="selectPythonLibrary('Plotly')">Plotly</button>
+
+      <button type="button" class="bg-transparent border border-accent text-accent px-2 sm:px-4 py-2 rounded hover:bg-accent hover:text-black" 
+        [ngClass]="{'bg-accent text-black outline outline-accent2 font-bold ': pythonLibrariesExperience.includes('TensorFlow'), 'bg-transparent text-accent ': !pythonLibrariesExperience.includes('TensorFlow')}" 
+        (click)="selectPythonLibrary('TensorFlow')">TensorFlow</button>
+
+      <button type="button" class="bg-transparent border border-accent text-accent px-2 sm:px-4 py-2 rounded hover:bg-accent hover:text-black" 
+        [ngClass]="{'bg-accent text-black outline outline-accent2 font-bold ': pythonLibrariesExperience.includes('Keras'), 'bg-transparent text-accent ': !pythonLibrariesExperience.includes('Keras')}" 
+        (click)="selectPythonLibrary('Keras')">Keras</button>
+
+      <button type="button" class="bg-transparent border border-accent text-accent px-2 sm:px-4 py-2 rounded hover:bg-accent hover:text-black" 
+        [ngClass]="{'bg-accent text-black outline outline-accent2 font-bold ': pythonLibrariesExperience.includes('PyTorch'), 'bg-transparent text-accent ': !pythonLibrariesExperience.includes('PyTorch')}" 
+        (click)="selectPythonLibrary('PyTorch')">PyTorch</button>
+
+      <button type="button" class="bg-transparent border border-accent text-accent px-2 sm:px-4 py-2 rounded hover:bg-accent hover:text-black" 
+        [ngClass]="{'bg-accent text-black outline outline-accent2 font-bold ': pythonLibrariesExperience.includes('FastAI'), 'bg-transparent text-accent ': !pythonLibrariesExperience.includes('FastAI')}" 
+        (click)="selectPythonLibrary('FastAI')">FastAI</button>
+
+      <button type="button" class="bg-transparent border border-accent text-accent px-2 sm:px-4 py-2 rounded hover:bg-accent hover:text-black" 
+        [ngClass]="{'bg-accent text-black outline outline-accent2 font-bold ': pythonLibrariesExperience.includes('OpenCV'), 'bg-transparent text-accent ': !pythonLibrariesExperience.includes('OpenCV')}" 
+        (click)="selectPythonLibrary('OpenCV')">OpenCV</button>
+    </div>
+
+    <p class="text-lg sm:text-xl text-center text-accent2 mb-4">
+      What is the highest level of math you studied in each category?
+    </p>
+
+    <!-- Calculus Slider Replacement -->
+<div class="my-8">
+  <label for="calculus" class="block text-lg md:text-xl font-medium text-accent text-center">Calculus</label>
+  <div class="flex items-center justify-between w-full">
+    <span class="text-sm sm:text-base" [ngClass]="{'text-accent': selectedCalculusLevel >= 1, 'text-accent2': selectedCalculusLevel < 1}">Pre-calculus</span>
+    <span class="text-sm sm:text-base" [ngClass]="{'text-accent': selectedCalculusLevel >= 2, 'text-accent2': selectedCalculusLevel < 2}">Calculus I</span>
+    <span class="text-sm sm:text-base" [ngClass]="{'text-accent': selectedCalculusLevel >= 3, 'text-accent2': selectedCalculusLevel < 3}">Calculus II</span>
+    <span class="text-sm sm:text-base" [ngClass]="{'text-accent': selectedCalculusLevel >= 4, 'text-accent2': selectedCalculusLevel < 4}">Calculus III</span>
+  </div>
+  <div class="relative flex items-center justify-between w-full mt-2" style="height: 2.5rem;">
+    <div class="absolute left-0 top-1/2 h-1 z-0" [ngClass]="{'bg-accent': selectedCalculusLevel >= 2, 'bg-accent2': selectedCalculusLevel < 2}" style="width: 33.33%;"></div>
+    <div class="absolute left-[33.33%] top-1/2 h-1 z-0" [ngClass]="{'bg-accent': selectedCalculusLevel >= 3, 'bg-accent2': selectedCalculusLevel < 3}" style="width: 33.33%;"></div>
+    <div class="absolute left-[66.66%] top-1/2 h-1 z-0" [ngClass]="{'bg-accent': selectedCalculusLevel >= 4, 'bg-accent2': selectedCalculusLevel < 4}" style="width: 33.33%;"></div>
+    <button type="button" class="w-6 h-6 rounded-full z-10" [ngClass]="{'bg-accent': selectedCalculusLevel >= 1, 'bg-accent2': selectedCalculusLevel < 1}" (click)="selectCalculusLevel(1)"></button>
+    <button type="button" class="w-6 h-6 rounded-full z-10" [ngClass]="{'bg-accent': selectedCalculusLevel >= 2, 'bg-accent2': selectedCalculusLevel < 2}" (click)="selectCalculusLevel(2)"></button>
+    <button type="button" class="w-6 h-6 rounded-full z-10" [ngClass]="{'bg-accent': selectedCalculusLevel >= 3, 'bg-accent2': selectedCalculusLevel < 3}" (click)="selectCalculusLevel(3)"></button>
+    <button type="button" class="w-6 h-6 rounded-full z-10" [ngClass]="{'bg-accent': selectedCalculusLevel >= 4, 'bg-accent2': selectedCalculusLevel < 4}" (click)="selectCalculusLevel(4)"></button>
+  </div>
+</div>
+
+<!-- Updated Statistics Section with Three Lines -->
+<div class="my-8">
+  <label for="statistics" class="block text-base sm:text-lg font-medium text-accent text-center">Statistics</label>
+  <div class="flex items-center justify-between w-full">
+    <span class="text-sm sm:text-base" [ngClass]="{'text-accent': selectedStatisticsLevel >= 1, 'text-accent2': selectedStatisticsLevel < 1}">Pre-calculus</span>
+    <span class="text-sm sm:text-base" [ngClass]="{'text-accent': selectedStatisticsLevel >= 2, 'text-accent2': selectedStatisticsLevel < 2}">Calculus I</span>
+    <span class="text-sm sm:text-base" [ngClass]="{'text-accent': selectedStatisticsLevel >= 3, 'text-accent2': selectedStatisticsLevel < 3}">Calculus II</span>
+    <span class="text-sm sm:text-base" [ngClass]="{'text-accent': selectedStatisticsLevel >= 4, 'text-accent2': selectedStatisticsLevel < 4}">Calculus III</span>
+  </div>
+  <div class="relative flex items-center justify-between w-full mt-2" style="height: 2.5rem;">
+    <div class="absolute left-0 top-1/2 h-1 z-0" [ngClass]="{'bg-accent': selectedStatisticsLevel >= 2, 'bg-accent2': selectedStatisticsLevel < 2}" style="width: 33.33%;"></div>
+    <div class="absolute left-[33.33%] top-1/2 h-1 z-0" [ngClass]="{'bg-accent': selectedStatisticsLevel >= 3, 'bg-accent2': selectedStatisticsLevel < 3}" style="width: 33.33%;"></div>
+    <div class="absolute left-[66.66%] top-1/2 h-1 z-0" [ngClass]="{'bg-accent': selectedStatisticsLevel >= 4, 'bg-accent2': selectedStatisticsLevel < 4}" style="width: 33.33%;"></div>
+    <button type="button" class="w-6 h-6 rounded-full z-10" [ngClass]="{'bg-accent': selectedStatisticsLevel >= 1, 'bg-accent2': selectedStatisticsLevel < 1}" (click)="selectStatisticsLevel(1)"></button>
+    <button type="button" class="w-6 h-6 rounded-full z-10" [ngClass]="{'bg-accent': selectedStatisticsLevel >= 2, 'bg-accent2': selectedStatisticsLevel < 2}" (click)="selectStatisticsLevel(2)"></button>
+    <button type="button" class="w-6 h-6 rounded-full z-10" [ngClass]="{'bg-accent': selectedStatisticsLevel >= 3, 'bg-accent2': selectedStatisticsLevel < 3}" (click)="selectStatisticsLevel(3)"></button>
+    <button type="button" class="w-6 h-6 rounded-full z-10" [ngClass]="{'bg-accent': selectedStatisticsLevel >= 4, 'bg-accent2': selectedStatisticsLevel < 4}" (click)="selectStatisticsLevel(4)"></button>
+  </div>
+</div>
+
+<!-- Updated Linear Algebra Section with Three Lines -->
+<div class="my-8">
+  <label for="linear-algebra" class="block text-base sm:text-lg font-medium text-accent text-center">Linear Algebra</label>
+  <div class="flex items-center justify-between w-full">
+    <span class="text-sm sm:text-base" [ngClass]="{'text-accent': selectedLinearAlgebraLevel >= 1, 'text-accent2': selectedLinearAlgebraLevel < 1}">Pre-calculus</span>
+    <span class="text-sm sm:text-base" [ngClass]="{'text-accent': selectedLinearAlgebraLevel >= 2, 'text-accent2': selectedLinearAlgebraLevel < 2}">Calculus I</span>
+    <span class="text-sm sm:text-base" [ngClass]="{'text-accent': selectedLinearAlgebraLevel >= 3, 'text-accent2': selectedLinearAlgebraLevel < 3}">Calculus II</span>
+    <span class="text-sm sm:text-base" [ngClass]="{'text-accent': selectedLinearAlgebraLevel >= 4, 'text-accent2': selectedLinearAlgebraLevel < 4}">Calculus III</span>
+  </div>
+  <div class="relative flex items-center justify-between w-full mt-2" style="height: 2.5rem;">
+    <div class="absolute left-0 top-1/2 h-1 z-0" [ngClass]="{'bg-accent': selectedLinearAlgebraLevel >= 2, 'bg-accent2': selectedLinearAlgebraLevel < 2}" style="width: 33.33%;"></div>
+    <div class="absolute left-[33.33%] top-1/2 h-1 z-0" [ngClass]="{'bg-accent': selectedLinearAlgebraLevel >= 3, 'bg-accent2': selectedLinearAlgebraLevel < 3}" style="width: 33.33%;"></div>
+    <div class="absolute left-[66.66%] top-1/2 h-1 z-0" [ngClass]="{'bg-accent': selectedLinearAlgebraLevel >= 4, 'bg-accent2': selectedLinearAlgebraLevel < 4}" style="width: 33.33%;"></div>
+    <button type="button" class="w-6 h-6 rounded-full z-10" [ngClass]="{'bg-accent': selectedLinearAlgebraLevel >= 1, 'bg-accent2': selectedLinearAlgebraLevel < 1}" (click)="selectLinearAlgebraLevel(1)"></button>
+    <button type="button" class="w-6 h-6 rounded-full z-10" [ngClass]="{'bg-accent': selectedLinearAlgebraLevel >= 2, 'bg-accent2': selectedLinearAlgebraLevel < 2}" (click)="selectLinearAlgebraLevel(2)"></button>
+    <button type="button" class="w-6 h-6 rounded-full z-10" [ngClass]="{'bg-accent': selectedLinearAlgebraLevel >= 3, 'bg-accent2': selectedLinearAlgebraLevel < 3}" (click)="selectLinearAlgebraLevel(3)"></button>
+    <button type="button" class="w-6 h-6 rounded-full z-10" [ngClass]="{'bg-accent': selectedLinearAlgebraLevel >= 4, 'bg-accent2': selectedLinearAlgebraLevel < 4}" (click)="selectLinearAlgebraLevel(4)"></button>
+  </div>
+</div>
+
+    <!-- Interests Section -->
+    <h2 class="text-3xl md:text-4xl font-bold my-4 text-center text-accent">Interests</h2>
+
+    <p class="text-lg sm:text-xl text-center text-accent2 mb-4">
+      Are there any cool projects or real-life use cases of ML that you find interesting (ex. ML + healthcare, etc)?
+    </p>
+    <textarea id="ml-projects" name="ml-projects" rows="3" placeholder="Your response..." class="mt-2 block w-full rounded-md border border-accent bg-transparent text-accent focus:ring-accent2 focus:border-accent2 p-3"></textarea>
+
+    <p class="text-lg sm:text-xl text-center text-accent2 my-4">
+      If you do have some experience in math, Python, ML, what were the methods or resources that you find most helpful?
+    </p>
+    <textarea id="study-methods" name="study-methods" rows="3" placeholder="Your response..." class="mt-2 block w-full rounded-md border border-accent bg-transparent text-accent focus:ring-accent2 focus:border-accent2 p-3 mb-6"></textarea>
+
+    <p class="text-lg sm:text-xl text-center text-accent2 mb-4">
+      How interested would you be on learning the math and theory behind ML algorithms. How valuable do you personally think learning the math behind algorithms is?  
+    </p>
+    <textarea id="ml-projects" name="ml-projects" rows="3" placeholder="Your response..." class="mt-2 block w-full rounded-md border border-accent bg-transparent text-accent focus:ring-accent2 focus:border-accent2 p-3"></textarea>
+
+    <!-- Personal Info Section -->
+    <h2 class="text-3xl md:text-4xl font-bold my-4 text-center text-accent">Personal Info</h2>
+    <p class="text-lg sm:text-xl text-center text-accent2 mb-6">
+      Thank you so much for completing the form. This section is completely optional but it would be helpful just to get to know you!
+    </p>
+
+    <div class="mb-6">
+      <label for="name" class="block text-lg sm:text-xl font-medium text-accent2">Name:</label>
+      <input type="text" id="name" name="name" placeholder="Enter your name" class="mt-2 block w-full rounded-md border border-accent bg-transparent text-accent focus:ring-accent2 focus:border-accent2 p-3">
+    </div>
+
+    <div class="mb-6">
+      <label for="age" class="block text-base sm:text-lg font-medium text-accent2">Age:</label>
+      <input type="number" id="age" name="age" placeholder="Enter your age" class="mt-2 block w-full rounded-md border border-accent bg-transparent text-accent focus:ring-accent2 focus:border-accent2 p-3">
+    </div>
+
+    <p class="text-xl md:text-xl text-center text-accent2 mb-4">
+      If you are in school, What level of schooling are you in? Or what's the highest level of schooling you have done?
+    </p>
+    <div class="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-6 justify-center">
+      <button type="button" class="bg-transparent border border-accent text-accent px-2 sm:px-4 py-2 rounded hover:bg-accent hover:text-black"
+        [ngClass]="{'bg-accent text-black outline outline-accent2 font-bold': schoolingLevel === 'Below High School', 'bg-transparent text-accent': schoolingLevel !== 'Below High School'}"
+        (click)="selectSchoolingLevel('Below High School')">Below High School</button>
+
+      <button type="button" class="bg-transparent border border-accent text-accent px-2 sm:px-4 py-2 rounded hover:bg-accent hover:text-black"
+        [ngClass]="{'bg-accent text-black outline outline-accent2 font-bold': schoolingLevel === 'High School', 'bg-transparent text-accent': schoolingLevel !== 'High School'}"
+        (click)="selectSchoolingLevel('High School')">High School</button>
+
+      <button type="button" class="bg-transparent border border-accent text-accent px-2 sm:px-4 py-2 rounded hover:bg-accent hover:text-black"
+        [ngClass]="{'bg-accent text-black outline outline-accent2 font-bold': schoolingLevel === 'College', 'bg-transparent text-accent': schoolingLevel !== 'College'}"
+        (click)="selectSchoolingLevel('College')">College</button>
+
+      <button type="button" class="bg-transparent border border-accent text-accent px-2 sm:px-4 py-2 rounded hover:bg-accent hover:text-black"
+        [ngClass]="{'bg-accent text-black outline outline-accent2 font-bold': schoolingLevel === 'Masters/PhD', 'bg-transparent text-accent': schoolingLevel !== 'Masters/PhD'}"
+        (click)="selectSchoolingLevel('Masters/PhD')">Masters/PhD</button>
+    </div>
+
+    <div class="mb-6">
+      <label for="ml-experience" class="block text-base sm:text-lg font-medium text-accent2">Do you have any experience in the ML industry/academia?</label>
+      <textarea id="ml-experience" name="ml-experience" rows="3" placeholder="Your response..." class="mt-2 block w-full rounded-md border border-accent bg-transparent text-accent focus:ring-accent2 focus:border-accent2 p-3"></textarea>
+    </div>
+
+    <div class="mb-6">
+      <label for="country" class="block text-base sm:text-lg font-medium text-accent2">Country you live in:</label>
+      <input type="text" id="country" name="country" placeholder="Enter your country" class="mt-2 block w-full rounded-md border border-accent bg-transparent text-accent focus:ring-accent2 focus:border-accent2 p-3">
+    </div>
+
+    <div class="mb-6">
+      <label for="suggestions" class="block text-base sm:text-lg font-medium text-accent2">Any other suggestion for features, advice, questions for us, etc.?</label>
+      <textarea id="suggestions" name="suggestions" rows="3" placeholder="Your response..." class="mt-2 block w-full rounded-md border border-accent bg-transparent text-accent focus:ring-accent2 focus:border-accent2 p-3"></textarea>
+    </div>
+
+    <div class="mb-6">
+      <p class="block text-base sm:text-lg font-medium text-accent2"></p>
+    </div>
+
+      <p class="text-center text-xl text-accent my-4">Interested in joining our team? Become a beta user to see how you can get involved!</p>
+
+    <button type="button" 
+    class="w-full bg-accent text-black py-3 rounded hover:bg-accent2 hover:scale-105 transition-all duration-100 relative active:outline active:outline-accent2 " 
+    (click)="onSubmit()"
+    style="background: linear-gradient(135deg, #4EFFEF, #B534FF); border: 2px solid transparent;">
+    Become a Beta User
+  </button>
+
+  </form>
+</div>
+</div>

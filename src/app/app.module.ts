@@ -25,6 +25,8 @@ import { NgxKatexComponent } from 'ngx-katex';
 import { LabComponent } from './lab/lab.component';
 import { OAuth2LoginComponent } from './oauth2/oauth2-login/oauth2-login.component';
 import { OAuth2CallbackComponent } from './oauth2/oauth2-callback/oauth2-callback.component';
+import { BetaSurveyComponent } from './beta-survey/beta-survey.component';
+import { SurveyCompleteComponent } from './survey-complete/survey-complete.component';
 
 
 @NgModule({
@@ -41,6 +43,8 @@ import { OAuth2CallbackComponent } from './oauth2/oauth2-callback/oauth2-callbac
     LabComponent,
     OAuth2LoginComponent,
     OAuth2CallbackComponent,
+    BetaSurveyComponent,
+    SurveyCompleteComponent,
   ],
   imports: [
     BrowserModule,

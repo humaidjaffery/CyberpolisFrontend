@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable, map, catchError } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { environment } from 'src/environments/environment';
+import { BetaUserForm } from './models/beta-user-form.model';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -43,16 +44,19 @@ export class AuthService {
     )
   }
 
-  public guestUser(): Observable<any> {
-    console.log(environment.apiServerUrl)
-    return this.http.post(`${environment.apiServerUrl}/auth/guest`, {}, httpOptions).pipe(
+  public betaUser(betaUserForm: BetaUserForm): Observable<any> {
+    console.log(environment.apiServerUrl);
+    return this.http.post(`${environment.apiServerUrl}/auth/beta_user_signup`, betaUserForm, httpOptions).pipe(
       map((response: any) => {
-          if(response){
-            localStorage.setItem('jwt_token', response);
-          }
-          return response;
+        if (response) {
+          console.log("BETA USER RESPONSE");
+          console.log(response);
+          console.log(response.email);
+          localStorage.setItem('beta_email', response.email);
+        }
+        return response;
       })
-    )
+    );
   }
 
   public logout(): void{
@@ -75,4 +79,3 @@ export class AuthService {
   }
 
 }
-  

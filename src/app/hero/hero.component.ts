@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { BetaUserForm } from '../models/beta-user-form.model';
 
 @Component({
   selector: 'app-hero',
@@ -17,6 +18,8 @@ export class HeroComponent implements OnInit, OnDestroy {
   showScrollArrow: boolean = true;
   private featureInterval: any;
   private animationsPausedUntilMs: number = 0;
+
+  @ViewChild('beta_signup') targetElementRef: ElementRef;
 
   // Decorative neon dots in the feature section background
   neonDots: Array<{ x: number; y: number; size: number; color: 'accent' | 'accent2'; durationMs: number; delayMs: number }>= [];
@@ -77,22 +80,6 @@ export class HeroComponent implements OnInit, OnDestroy {
     const betaElement = document.getElementById('beta');
     if (betaElement) {
       betaElement.scrollIntoView({ behavior: 'smooth' });
-    }
-  }
-
-  joinBeta(): void {
-    if (this.betaEmail && this.betaEmail.trim() !== '') {
-      // Here you would typically send the email to your backend
-      // For now, we'll just show a success message
-      this.betaSubmitted = true;
-      
-      // Reset form after a delay
-      setTimeout(() => {
-        this.betaSubmitted = false;
-        this.betaEmail = '';
-      }, 3000);
-      
-      console.log('Beta signup:', this.betaEmail);
     }
   }
 
@@ -177,4 +164,22 @@ export class HeroComponent implements OnInit, OnDestroy {
     }
     this.neonDots = dots;
   }
-} 
+
+  gain_early_access(){
+    console.log("GAIN EARLY ACCESS CLICKED")
+    const betaUserForm = new BetaUserForm();
+    betaUserForm.useremail = this.betaEmail; // Only username is valid
+    betaUserForm.surveyQuestions = []; // No survey questions on this form
+
+    this.authService.betaUser(betaUserForm).subscribe({
+      next: (response) => {
+        console.log('Beta user added:', response);
+      },
+      error: (error) => {
+        console.error('Error adding beta user:', error);
+      }
+    });
+
+    this.router.navigate(['survey']);
+  }
+}

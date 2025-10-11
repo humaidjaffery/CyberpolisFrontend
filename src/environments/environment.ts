@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiServerUrl: 'https://api.cyberpolisai.com',
-  // apiServerUrl: 'http://localhost:5000',
+  // apiServerUrl: 'https://api.cyberpolisai.com',
+  apiServerUrl: 'http://localhost:5000',
   mediaCdnUrl: 'https://dulpe9vok4m1x.cloudfront.net/'
 };
 
