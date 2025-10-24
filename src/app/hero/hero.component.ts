@@ -166,10 +166,11 @@ export class HeroComponent implements OnInit, OnDestroy {
   }
 
   gain_early_access(){
-    console.log("GAIN EARLY ACCESS CLICKED")
+    console.log("GAIN EARLY ACCESS CLICKED - email:", this.betaEmail);
     const betaUserForm = new BetaUserForm();
-    betaUserForm.useremail = this.betaEmail; // Only username is valid
+    betaUserForm.useremail = this.betaEmail;
     betaUserForm.surveyQuestions = []; // No survey questions on this form
+    console.log("BETA USer FORM:", betaUserForm)
 
     this.authService.betaUser(betaUserForm).subscribe({
       next: (response) => {

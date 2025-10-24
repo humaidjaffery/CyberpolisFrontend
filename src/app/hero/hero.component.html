@@ -14,7 +14,7 @@
   <div class="min-h-screen relative z-10 flex flex-col items-center justify-center px-4 sm:px-8">
 
     <div class="mb-10 flex items-center gap-4">
-      <img class="w-10 md:w-12 h-10 sm:h-12 rounded-lg" src="assets/logo.png" alt="CyberpolisAI Logo">
+      <img class="w-10 md:w-12 h-10 sm:h-12 rounded-lg" [src]="mediaCdnUrl + 'logo.png' " alt="CyberpolisAI Logo">
       <h1 class="text-3xl md:text-5xl font-bold text-white">CyberpolisAI</h1>
     </div>
     <!-- Main Content Container -->
@@ -35,6 +35,7 @@
         <input 
           type="email" 
           placeholder="Enter your email"
+          [(ngModel)]="this.betaEmail"
           class=" text-lg sm:text-2xl flex-1 px-4 sm:px-6 py-3 sm:py-4 bg-gray-800/80 border-2 border-transparent rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-accent/50 backdrop-blur-sm relative"
           style="background: linear-gradient(black, black) padding-box, linear-gradient(135deg, #4EFFEF, #B534FF) border-box;"
         >
@@ -86,81 +87,32 @@
       <div class="flex flex-col lg:flex-row h-auto lg:h-[60vh] gap-4 lg:gap-8 mb-8">
         <!-- Left Side - Image (70% of screen on large, full width on small) -->
         <div class="w-full lg:w-[70%] flex justify-center items-center">
-          <div class="outline outline-accent outline-offset-0 w-full lg:w-4/5 h-60 sm:h-80 lg:h-full bg-gradient-to-br from-gray-700/50 to-gray-800/50 flex items-center justify-center relative overflow-hidden rounded-3xl border-2 border-gray-700">
-            <div class="absolute inset-0 bg-gradient-to-br from-accent/20 to-accent2/20"></div>
-            <div class="relative z-10 text-center">
-              <div class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-400">screenshot of module with IDE (arrows pointing and explaining to side: 1. run your code 2. Pass test cases 3. find hints if you are stuck</div>
-            </div>
+          <div class="w-full lg:w-4/5 h-60 sm:h-80 lg:h-full flex items-center justify-center">
+            <img [src]="mediaCdnUrl + '1.png' " alt="" class="outline outline-accent outline-offset-0 rounded-3xl border-2 border-gray-700 max-w-full max-h-full object-contain">
           </div>
         </div>
-
+        
         <!-- Right Side - Feature Content (30% of screen on large, full width on small) -->
         <div class="w-full lg:w-[30%] flex flex-col items-center h-full py-4 lg:py-8">
 
           <!-- Feature Content -->
           <div class="flex flex-col justify-center items-center flex-1 text-center px-4">
             <!-- Feature Title -->
-            <h3 class="text-xl sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 lg:mb-8">Built in Coding Platform</h3>
+            <h3 class="text-xl sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 lg:mb-8">Project Driven learning with built-in IDE</h3>
             
             <!-- Feature Description -->
             <div class="space-y-1 sm:space-y-2 lg:space-y-3">
-              <p class="text-sm sm:text-base lg:text-lg xl:text-xl text-gray-300"> Code, test, and train directly in your browser </p>
+              <p class="text-lg md:text-xl text-gray-300"> Code and train models directly in your browser and pass test cases in a leetcode style platform </p>
             </div>
           </div>
-
-          <!-- Gain Early Access Button -->
-          <button 
-            class="px-3 sm:px-4 py-2 sm:py-3 md:px-6 md:py-3 lg:px-8 lg:py-4 bg-transparent border-2 rounded-lg text-white font-bold hover:scale-105 transition-all duration-300 relative overflow-hidden mt-auto"
-            style="background: linear-gradient(135deg, #4EFFEF, #B534FF); border: 2px solid transparent;"
-          >
-            <span class="relative z-10 text-sm sm:text-base lg:text-lg text-black">Gain Early Access</span>
-          </button>
         </div>
       </div>
 
       <div class="flex flex-col lg:flex-row-reverse h-auto lg:h-[60vh] gap-4 lg:gap-8 mb-8">
         <!-- Left Side - Image (70% of screen on large, full width on small) -->
         <div class="w-full lg:w-[70%] flex justify-center items-center">
-          <div class="outline outline-accent outline-offset-0 w-full lg:w-4/5 h-60 sm:h-80 lg:h-full bg-gradient-to-br from-gray-700/50 to-gray-800/50 flex items-center justify-center relative overflow-hidden rounded-3xl border-2 border-gray-700">
-            <div class="absolute inset-0 bg-gradient-to-br from-accent/20 to-accent2/20"></div>
-            <div class="relative z-10 text-center">
-              <div class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-400">Module of "Predicting college acceptances for 2025 dataset" 1. Detailed tutorial for every step</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Side - Feature Content (30% of screen on large, full width on small) -->
-        <div class="w-full lg:w-[30%] flex flex-col items-center h-full py-4 lg:py-8">
-
-          <!-- Feature Content -->
-          <div class="flex flex-col justify-center items-center flex-1 text-center px-4">
-            <!-- Feature Title -->
-            <h3 class="text-xl sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 lg:mb-8">Project Driven Learning</h3>
-            
-            <!-- Feature Description -->
-            <div class="space-y-1 sm:space-y-2 lg:space-y-3">
-              <p class="text-sm sm:text-base lg:text-lg xl:text-xl text-gray-300"> Learn through real hands-on projects with real datasets</p>
-            </div>
-          </div>
-
-          <!-- Gain Early Access Button -->
-          <button 
-            class="px-3 sm:px-4 py-2 sm:py-3 md:px-6 md:py-3 lg:px-8 lg:py-4 bg-transparent border-2 rounded-lg text-white font-bold hover:scale-105 transition-all duration-300 relative overflow-hidden mt-auto"
-            style="background: linear-gradient(135deg, #4EFFEF, #B534FF); border: 2px solid transparent;"
-          >
-            <span class="relative z-10 text-sm sm:text-base lg:text-lg text-black">Gain Early Access</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="flex flex-col lg:flex-row h-auto lg:h-[60vh] gap-4 lg:gap-8 mb-8">
-        <!-- Left Side - Image (70% of screen on large, full width on small) -->
-        <div class="w-full lg:w-[70%] flex justify-center items-center">
-          <div class="outline outline-accent outline-offset-0 w-full lg:w-4/5 h-60 sm:h-80 lg:h-full bg-gradient-to-br from-gray-700/50 to-gray-800/50 flex items-center justify-center relative overflow-hidden rounded-3xl border-2 border-gray-700">
-            <div class="absolute inset-0 bg-gradient-to-br from-accent/20 to-accent2/20"></div>
-            <div class="relative z-10 text-center">
-              <div class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-400">Screenshot of how netflix thumbnails work (netflix logo), 1. implement it yourself with guidance</div>
-            </div>
+          <div class="w-full lg:w-4/5 h-60 sm:h-80 lg:h-full flex items-center justify-center">
+            <img [src]="mediaCdnUrl + '2.png' " alt="" class="outline outline-accent outline-offset-0 rounded-3xl border-2 border-gray-700 max-w-full max-h-full object-contain">
           </div>
         </div>
 
@@ -174,28 +126,17 @@
             
             <!-- Feature Description -->
             <div class="space-y-1 sm:space-y-2 lg:space-y-3">
-              <p class="text-sm sm:text-base lg:text-lg xl:text-xl text-gray-300"> Study and recreate real life use cases of ML in companies </p>
+              <p class="text-lg md:text-xl text-gray-300"> Study and recreate real life use cases of ML various companies to get practical knowledge and skills </p>
             </div>
           </div>
-
-          <!-- Gain Early Access Button -->
-          <button 
-            class="px-3 sm:px-4 py-2 sm:py-3 md:px-6 md:py-3 lg:px-8 lg:py-4 bg-transparent border-2 rounded-lg text-white font-bold hover:scale-105 transition-all duration-300 relative overflow-hidden mt-auto"
-            style="background: linear-gradient(135deg, #4EFFEF, #B534FF); border: 2px solid transparent;"
-          >
-            <span class="relative z-10 text-sm sm:text-base lg:text-lg text-black">Gain Early Access</span>
-          </button>
         </div>
       </div>
 
-      <div class="flex flex-col lg:flex-row-reverse h-auto lg:h-[60vh] gap-4 lg:gap-8 mb-8">
+      <div class="flex flex-col lg:flex-row h-auto lg:h-[60vh] gap-4 lg:gap-8 mb-8">
         <!-- Left Side - Image (70% of screen on large, full width on small) -->
         <div class="w-full lg:w-[70%] flex justify-center items-center">
-          <div class="outline outline-accent outline-offset-0 w-full lg:w-4/5 h-60 sm:h-80 lg:h-full bg-gradient-to-br from-gray-700/50 to-gray-800/50 flex items-center justify-center relative overflow-hidden rounded-3xl border-2 border-gray-700">
-            <div class="absolute inset-0 bg-gradient-to-br from-accent/20 to-accent2/20"></div>
-            <div class="relative z-10 text-center">
-              <div class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-400">screenshot of AI tab, LUCID LOGO: 1. Meet your personal AI companion LUCID, 2. Aware of your code and previous error, hypersonal guidance</div>
-            </div>
+          <div class="w-full lg:w-4/5 h-60 sm:h-80 lg:h-full flex items-center justify-center">
+                        <img [src]="mediaCdnUrl + '3.png' " alt="" class="outline outline-accent outline-offset-0 rounded-3xl border-2 border-gray-700 max-w-full max-h-full object-contain">
           </div>
         </div>
 
@@ -209,23 +150,14 @@
             
             <!-- Feature Description -->
             <div class="space-y-1 sm:space-y-2 lg:space-y-3">
-              <p class="text-sm sm:text-base lg:text-lg xl:text-xl text-gray-300">Personal AI companion with 24/7 hyper-personalized guidance aware of your errors</p>
-              <p class="text-sm sm:text-base lg:text-lg xl:text-xl text-gray-300"></p>
+              <p class="text-lg md:text-xl text-gray-300">Personal AI companion with 24/7 hyper-personalized guidance aware of your errors</p>
+              <p class="text-lg md:text-xl text-gray-300"></p>
             </div>
           </div>
-
-          <!-- Gain Early Access Button -->
-          <button 
-            class="px-3 sm:px-4 py-2 sm:py-3 md:px-6 md:py-3 lg:px-8 lg:py-4 bg-transparent border-2 rounded-lg text-white font-bold hover:scale-105 transition-all duration-300 relative overflow-hidden mt-auto"
-            style="background: linear-gradient(135deg, #4EFFEF, #B534FF); border: 2px solid transparent;"
-          >
-            <span class="relative z-10 text-sm sm:text-base lg:text-lg text-black">Gain Early Access</span>
-          </button>
         </div>
       </div>
 
-      <div class="flex flex-col lg:flex-row h-auto lg:h-[60vh] gap-4 lg:gap-8 mb-8">
-        <!-- Left Side - Image (70% of screen on large, full width on small) -->
+      <!-- <div class="flex flex-col lg:flex-row h-auto lg:h-[60vh] gap-4 lg:gap-8 mb-8">
         <div class="w-full lg:w-[70%] flex justify-center items-center">
           <div class="outline outline-accent outline-offset-0 w-full lg:w-4/5 h-60 sm:h-80 lg:h-full bg-gradient-to-br from-gray-700/50 to-gray-800/50 flex items-center justify-center relative overflow-hidden rounded-3xl border-2 border-gray-700">
             <div class="absolute inset-0 bg-gradient-to-br from-accent/20 to-accent2/20"></div>
@@ -235,21 +167,16 @@
           </div>
         </div>
 
-        <!-- Right Side - Feature Content (30% of screen on large, full width on small) -->
         <div class="w-full lg:w-[30%] flex flex-col items-center h-full py-4 lg:py-8">
 
-          <!-- Feature Content -->
           <div class="flex flex-col justify-center items-center flex-1 text-center px-4">
-            <!-- Feature Title -->
             <h3 class="text-xl sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 lg:mb-8">Comprehensive Roadmap</h3>
             
-            <!-- Feature Description -->
             <div class="space-y-1 sm:space-y-2 lg:space-y-3">
               <p class="text-sm sm:text-base lg:text-lg xl:text-xl text-gray-300"> A strucured roadmap designed to ensure ML readiness while also allowing your own  </p>
             </div>
           </div>
 
-          <!-- Gain Early Access Button -->
           <button 
             class="px-3 sm:px-4 py-2 sm:py-3 md:px-6 md:py-3 lg:px-8 lg:py-4 bg-transparent border-2 rounded-lg text-white font-bold hover:scale-105 transition-all duration-300 relative overflow-hidden mt-auto"
             style="background: linear-gradient(135deg, #4EFFEF, #B534FF); border: 2px solid transparent;"
@@ -257,7 +184,7 @@
             <span class="relative z-10 text-sm sm:text-base lg:text-lg text-black">Gain Early Access</span>
           </button>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 

@@ -11,16 +11,29 @@ import { BetaUserForm } from '../models/beta-user-form.model';
 })
 export class BetaSurveyComponent implements OnInit {
     mediaCdnUrl = environment.mediaCdnUrl;
-    selectedCalculusLevel: number = 0;
-    selectedStatisticsLevel: number = 0;
-    selectedLinearAlgebraLevel: number = 0;
-    name: string = '';
-    age: number = 0;
-    schoolingLevel: string = '';
-    mlExperience: string = '';
-    country: string = '';
-    suggestions: string = '';
-    pythonExperience: string = '';
+    
+    // Survey Questions Array - 14 elements in order of form appearance
+
+
+    surveyQuestions: any[] = [
+        '', // 0: Python Experience
+        '', // 1: Python Libraries (comma-separated)
+        0,  // 2: Calculus Level
+        0,  // 3: Statistics Level  
+        0,  // 4: Linear Algebra Level
+        '', // 5: ML Projects Interest
+        '', // 6: Study Methods
+        '', // 7: Math Interest
+        '', // 8: Name
+        0,  // 9: Age
+        '', // 10: Schooling Level
+        '', // 11: ML Experience
+        '', // 12: Country
+        ''  // 13: Suggestions
+    ];
+
+
+    // Helper array for Python Libraries (for multiple selection)
     pythonLibrariesExperience: string[] = [];
 
     useremail : string = '';
@@ -28,27 +41,26 @@ export class BetaSurveyComponent implements OnInit {
 
     ngOnInit(): void {
       this.useremail = localStorage.getItem('beta_email') || '';
-      console.log(this.useremail)
+      console.log("In betasurveyhtml:", this.useremail)
     }
 
     constructor (private authService:AuthService, private router: Router) {  }
 
     selectCalculusLevel(level: number): void {
-      this.selectedCalculusLevel = level;
+      this.surveyQuestions[2] = level;
     }
 
     selectStatisticsLevel(level: number): void {
-      this.selectedStatisticsLevel = level;
+      this.surveyQuestions[3] = level;
     }
 
-
     selectLinearAlgebraLevel(level: number): void {
-      this.selectedLinearAlgebraLevel = level;
+      this.surveyQuestions[4] = level;
     }
 
     selectPythonExperience(experience: string): void {
-      this.pythonExperience = experience;
-      console.log(this.pythonExperience)
+      this.surveyQuestions[0] = experience;
+      console.log(this.surveyQuestions[0]);
     }
 
     selectPythonLibrary(library: string): void {
@@ -57,10 +69,12 @@ export class BetaSurveyComponent implements OnInit {
       } else {
         this.pythonLibrariesExperience.push(library);
       }
+      // Update the survey questions array with comma-separated libraries
+      this.surveyQuestions[1] = this.pythonLibrariesExperience.join(',');
     }
 
     selectSchoolingLevel(level: string): void {
-      this.schoolingLevel = level;
+      this.surveyQuestions[10] = level;
     }
 
     onSubmit(): void {
@@ -71,22 +85,11 @@ export class BetaSurveyComponent implements OnInit {
 
       this.showEmailError = false;
 
+      console.log(this.surveyQuestions)
+
       const betaUserForm = new BetaUserForm();
       betaUserForm.useremail = this.useremail;
-      betaUserForm.surveyQuestions = [
-        this.selectedCalculusLevel.toString(),
-        this.selectedStatisticsLevel.toString(),
-        this.selectedLinearAlgebraLevel.toString(),
-        this.age.toString(),
-        this.schoolingLevel,
-        this.mlExperience,
-        this.country,
-        this.suggestions,
-        this.pythonExperience,
-        this.pythonLibrariesExperience.join(',')
-      ];
-
-      console.log("in submit")
+      betaUserForm.surveyQuestions = this.surveyQuestions.map(item => item.toString());
 
       this.authService.betaUser(betaUserForm).subscribe(response => {
         console.log('Beta user added:', response);

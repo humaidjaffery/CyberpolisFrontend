@@ -45,16 +45,19 @@ export class AuthService {
   }
 
   public betaUser(betaUserForm: BetaUserForm): Observable<any> {
-    console.log(environment.apiServerUrl);
+    console.log("in beta user service");
+    localStorage.setItem('beta_email', betaUserForm.useremail);
     return this.http.post(`${environment.apiServerUrl}/auth/beta_user_signup`, betaUserForm, httpOptions).pipe(
       map((response: any) => {
         if (response) {
           console.log("BETA USER RESPONSE");
-          console.log(response);
-          console.log(response.email);
-          localStorage.setItem('beta_email', response.email);
+          console.log(typeof(response));
+          console.log(response['useremail']);
         }
         return response;
+      }, (error: any) => {
+        console.error("BETA USER ERROR");
+        console.error(error);
       })
     );
   }
