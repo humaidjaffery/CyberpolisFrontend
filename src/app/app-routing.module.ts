@@ -14,15 +14,15 @@ import { BetaSurveyComponent } from './beta-survey/beta-survey.component';
 import { SurveyCompleteComponent } from './survey-complete/survey-complete.component';
 
 const routes: Routes = [
-  // {path: 'auth', children: [
-  //   {path: 'login', component: LoginComponent},
-  //   {path: 'signup', component: SignupComponent},
-  // ]},
-  // {path: 'oauth/callback', component: OAuth2CallbackComponent},
-  // {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
-  // {path: 'course/:course_id/:course_name', component: CourseComponent, canActivate: [AuthGuard]},
-  // {path: 'module/:module_id', component: ModuleComponent, canActivate: [AuthGuard]},
-  // {path: 'lab/:lab_id', component: LabComponent, canActivate: [AuthGuard]},
+  {path: 'auth', children: [
+    {path: 'login', component: LoginComponent},
+    {path: 'signup', component: SignupComponent},
+  ]},
+  {path: 'oauth/callback', component: OAuth2CallbackComponent},
+  {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+  {path: 'course/:course_id/:course_name', component: CourseComponent, canActivate: [AuthGuard]},
+  {path: 'module/:module_id', component: ModuleComponent, canActivate: [AuthGuard]},
+  {path: 'lab/:lab_id', component: LabComponent, canActivate: [AuthGuard]},
   {path: 'survey', component: BetaSurveyComponent},
   {path: 'survey/complete', component: SurveyCompleteComponent},
   {path: '', component: HeroComponent},

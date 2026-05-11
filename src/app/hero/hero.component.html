@@ -22,12 +22,12 @@
   
       <!-- Main Headline -->
       <h1 class="text-5xl md:text-6xl lg:text-8xl font-bold text-white mb-6 sm:mb-8 leading-tight">
-        The Only Platform YOU Need <br> to <span class="text-accent2 px-2" style="text-shadow: 0 0 1px #B534FF, 0 0 2px #B534FF, 0 0 3px #B534FF;">Master</span> <span class="text-accent px-2" style="text-shadow: 0 0 1px #4EFFEF, 0 0 2px #4EFFEF, 0 0 3px #4EFFEF;">Machine Learning</span>
+        The <span class="text-accent2 px-2" style="text-shadow: 0 0 1px #B534FF, 0 0 2px #B534FF, 0 0 3px #B534FF;">Leetcode</span> for <br>  <span class="text-accent px-2" style="text-shadow: 0 0 1px #4EFFEF, 0 0 2px #4EFFEF, 0 0 3px #4EFFEF;">Machine Learning Projects</span>
       </h1>
       
-      <!-- subtt -->
+      <!-- subtt -->  
       <div class="text-center mx-auto mb-8 sm:mb-12">
-        <p class="text-3xl md:text-3xl text-gray-300"> Gain hands-on experience through real world projects and case studies for all skill levels all in your browser! </p>
+        <p class="text-3xl md:text-3xl text-gray-300"> Gain hands-on experience building real world ML Models for your resume</p>
       </div>
       
       <!-- Email Input and Button -->
@@ -41,11 +41,27 @@
         >
         <button 
           class="px-6 sm:px-8 py-3 sm:py-4 bg-transparent border-2 rounded-lg text-white font-bold hover:scale-105 transition-all duration-300 relative overflow-hidden"
-          style="background: linear-gradient(135deg, #4EFFEF, #B534FF); border: 2px solid transparent;"
+          style="background: linear-gradient(135deg, #4EFFEF, #B534FF); border: 2px solid black;"
           (click)="gain_early_access()"
         >
-          <span class="relative z-10 text-sm sm:text-lg text-black" >Gain Early Access for completely FREE</span>
+          <span class="relative z-10 text-lg sm:text-xl text-black font-bold" >Become Beta User</span>
         </button>
+      </div>
+
+      <!-- Benefits List -->
+      <div class="mt-8 flex flex-col md:flex-row gap-4 md:gap-8 justify-center items-center text-center max-w-4xl mx-auto">
+        <div class="flex items-center gap-3 text-gray-300">
+          <span class="text-accent text-xl">✓</span>
+          <span class="text-xl"><span class="font-bold f">Priority</span> access to all future features</span>
+        </div>
+        <div class="flex items-center gap-3 text-gray-300">
+          <span class="text-accent text-xl">✓</span>
+          <span class="text-xl">Shape the platform - limited spots</span>
+        </div>
+        <div class="flex items-center gap-3 text-gray-300">
+          <span class="text-accent text-xl">✓</span>
+          <span class="text-xl">Join exclusive community of ML enthusiasts</span>
+        </div>
       </div>
     </div>
   </div>
@@ -64,26 +80,11 @@
     <!-- Section Title -->
     <div class="w-full text-center mb-6 sm:mb-10 px-4 md:px-8">
         <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white">
-          What Makes <span class="text-accent px-2" style="text-shadow: 0 0 10px #4EFFEF, 0 0 20px #4EFFEF;">CyberpolisAI</span> So <span class="text-accent2 px-2" style="text-shadow: 0 0 10px #B534FF, 0 0 20px #B534FF;">Special</span>?
+          What Makes <span class="text-accent px-2" style="text-shadow: 0 0 1px #4EFFEF, 0 0 2px #4EFFEF;">CyberpolisAI</span> So <span class="text-accent2 px-2" style="text-shadow: 0 0 1px #B534FF, 0 0 2px #B534FF;">Special</span>?
         </h2>
     </div>
     <div class="w-full max-w-none px-4 md:px-8">
-      <!-- Global Navigation Tabs (80% width), below section title -->
-      <!-- <div class="w-full sm:w-4/5 mx-auto mb-6 sm:mb-10">
-        <div class="flex gap-2 w-full">
-          <div
-            *ngFor="let feature of features; let i = index"
-            class="tab-pill flex-1 h-3 sm:h-4 md:h-4 lg:h-5 rounded-sm cursor-pointer transition-all duration-300"
-            [class.active-tab]="isActiveFeature(i)"
-            [class.fade-out]="isActiveFeature(i) && isAnimationsEnabled()"
-            [class.bg-gray-600]="!isActiveFeature(i)"
-            [class.next-tab]="isNextFeature(i) && !isActiveFeature(i) && isAnimationsEnabled()"
-            [class.gradient-forward]="isForwardGradient(i)"
-            [class.gradient-reverse]="!isForwardGradient(i)"
-            (click)="setActiveFeature(i)">
-          </div>
-        </div>
-      </div> -->
+
       <div class="flex flex-col lg:flex-row h-auto lg:h-[60vh] gap-4 lg:gap-8 mb-8">
         <!-- Left Side - Image (70% of screen on large, full width on small) -->
         <div class="w-full lg:w-[70%] flex justify-center items-center">
